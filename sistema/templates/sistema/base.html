@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="author" content="Nahuel Horacio Villarreal" />
+    <meta name="copyright" content="Asociación Bomberos Voluntarios de Punta Alta" />
+    <title>Feu</title>
+    <link href="https://getbootstrap.com/docs/5.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="manifest" href="https://getbootstrap.com/docs/5.2/assets/img/favicons/manifest.json">
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+      
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+      
+      .b-example-divider {
+        height: 3rem;
+        background-color: rgba(0, 0, 0, .1);
+        border: solid rgba(0, 0, 0, .15);
+        border-width: 1px 0;
+        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+      }
+      
+      .b-example-vr {
+        flex-shrink: 0;
+        width: 1.5rem;
+        height: 100vh;
+      }
+      
+      .bi {
+        vertical-align: -.125em;
+        fill: currentColor;
+      }
+      
+      .nav-scroller {
+        position: relative;
+        z-index: 2;
+        height: 2.75rem;
+        overflow-y: hidden;
+      }
+      
+      .nav-scroller .nav {
+        display: flex;
+        flex-wrap: nowrap;
+        padding-bottom: 1rem;
+        margin-top: -1px;
+        overflow-x: auto;
+        text-align: center;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+      }
+    </style>
+    <link rel="icon" href="../../static/sistema/img/miniatura.ico">
+    <link rel="stylesheet" href="../../static/sistema/css/estilo-login.css">
+    <link rel="stylesheet" href="../../static/sistema/css/estilo-base.css">
+  </head>
+
+  <body>     
+    <header class="p-3 mb-3 border-bottom">
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="{% url 'inicio' %}" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+              <img class="bi me-2" width="90" height="90" src="../../static/sistema/img/logo.png" alt="Logo bomberos voluntarios">
+            </a>
+    
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+              <li><a href="{% url 'inicio' %}" class="nav-link px-2 {% if request.path == '/inicio' %}link-secondary{% endif %} {% if request.path != '/inicio' %}link-dark{% endif %}">
+                Inicio</a></li>
+              <li><a href="#" class="nav-link px-2 {% if request.path == '/equipos/inventario' %}link-secondary{% endif %} {% if request.path != '/equipos/inventario' %}link-dark{% endif %} dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                Equipos</a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <li><a class="dropdown-item {% if request.path == '/equipos/inventario' %}link-secondary{% endif %}" href="{% url 'inventario' %}">
+                    Inventario</a></li>
+                  <li><a class="dropdown-item" href="#">Para agregar</a></li>
+                </ul>
+              </li>
+              <li><a href="#" class="nav-link px-2 {% if request.path == '/automotores/parque-de-vehiculos' %}link-secondary{% endif %} {% if request.path != '/automotores/parque-de-vehiculos' %}link-dark{% endif %} dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                Automotores</a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <li><a class="dropdown-item {% if request.path == '/automotores/parque-de-vehiculos' %}link-secondary{% endif %}" href="{% url 'parque-de-vehiculos' %}">
+                    Parque de vehículos</a></li>
+                  <li><a class="dropdown-item" href="#">Para agregar</a></li>
+                </ul>
+              </li>
+              <li><a href="#" class="nav-link px-2 {% if request.path == '/personal/documentacion' or request.path == '/personal/roperia' %}link-secondary{% endif %} {% if request.path != '/personal/documentacion' and request.path != '/personal/roperia' %}link-dark{% endif %} dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                Personal</a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <li><a class="dropdown-item {% if request.path == '/personal/roperia' %}link-secondary{% endif %}" href="{% url 'roperia' %}">
+                    Ropería</a></li>
+                  <li><a class="dropdown-item {% if request.path == '/personal/documentacion' %}link-secondary{% endif %}" href="{% url 'documentacion' %}">
+                    Documentación</a></li>
+                </ul>
+              </li>
+            </ul>     
+            <div class="dropdown text-end">
+                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img src="../../static/sistema/img/imagen-prueba.jpg" alt="imagen perfil" width="40" height="40" class="rounded-circle">
+                </a>
+                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                  <li><a class="dropdown-item {% if request.path == '/detalle' %}link-secondary{% endif %}" href="{% url 'detalle' %}">Puntaje detallado</a></li>
+                  <li><a class="dropdown-item {% if request.path == '/perfil' %}link-secondary{% endif %}" href="{% url 'perfil' %}">Perfil</a></li>
+                  <li><a class="dropdown-item {% if request.path == '/hacer-oi' %}link-secondary{% endif %}" href="{% url 'hacer-oi' %}">Hacer orden interno</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item {% if request.path == '/acerca-de' %}link-secondary{% endif %}" href="{% url 'acerca-de' %}">Acerca de</a></li>
+                  <li><a class="dropdown-item" href="{% url 'cerrar_sesion' %}">Cerrar sesión</a></li>
+                </ul>
+            </div>
+          </div>
+        </div>
+        <script src="https://getbootstrap.com/docs/5.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    </header>
+
+    {% block content %} {% endblock %}
+    {% block footer %}
+    <footer>Asoc. Bomberos Voluntarios de Punta Alta - Todos los derechos reservados.<br>
+      <a href='mailto:nahuelv77@gmail.com'>¡Haga su sugerencia sobre el sitio!</a>
+    </footer>
+    {% endblock %}
+  </body>
+</html>
