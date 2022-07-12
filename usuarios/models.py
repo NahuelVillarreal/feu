@@ -268,6 +268,14 @@ class Puntajes(models.Model):
 
     def __str__(self):
         return self.persona.apellido
+
+class Licencias(models.Model):
+    TIPOS = [('A', 'Anual'), ('C', 'Casamiento'), ('E', 'Estudio'), ('I', 'Enfermedad'), ('F', 'Fallecimiento de Familiar'), 
+    ('N', 'Nacimiento'), ('P', 'Embarazo')]
+    persona = models.ForeignKey(Personal, null=True, on_delete=models.CASCADE)
+    inicio = models.DateTimeField()
+    finalizacion = models.DateTimeField()
+    tipo = models.CharField(max_length=1, choices=TIPOS)
     
 class GruposGuardia(models.Model):
     GRUPOS = [(1, 'GRUPO 1'), (2, 'GRUPO 2'), (3, 'GRUPO 4'), (4, 'GRUPO 4')]
@@ -279,4 +287,4 @@ class GruposGuardia(models.Model):
         verbose_name_plural = 'Grupos'
 
     def __str__(self):
-        return self.get_grupo_display()
+        return str(self.grupo)

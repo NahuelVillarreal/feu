@@ -2,7 +2,7 @@ from datetime import datetime
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from usuarios.forms import AdminFormaCreacionUsuario, AdminFormaActualizar
-from usuarios.models import Personal, Puntajes, GruposGuardia
+from usuarios.models import Licencias, Personal, Puntajes, GruposGuardia, Licencias
 from servicios.models import Servicios
 
 # Register your models here.
@@ -342,8 +342,22 @@ class DiciembreInlines(admin.TabularInline):
         qs = super().get_queryset(request)
         return qs.filter(servicios__t_toque__month = 12)
 
+class InlinesLicencias(admin.TabularInline):
+    model = Licencias
+    def has_add_permission(self, request, obj=None):
+        return False
+    def has_change_permission(self, request, obj=None):
+        return False
+    classes = ['collapse']
+    can_delete = False
+    def __str__(self):
+        return 'Licencias'
+    def show_fecha_inicio(self, instance):
+        return instance.servicios.t_toque
+    show_fecha_inicio.short_description = 'Fecha inicio'
+
 class UserAdmin(BaseUserAdmin):
-    inlines = [ServiciosToques, EneroInlines, FebreroInlines, MarzoInlines, AbrilInlines, MayoInlines, JunioInlines, JulioInlines,
+    inlines = [InlinesLicencias, ServiciosToques, EneroInlines, FebreroInlines, MarzoInlines, AbrilInlines, MayoInlines, JunioInlines, JulioInlines,
     AgostoInlines, SeptiembreInlines, OctubreInlines, NoviembreInlines, DiciembreInlines]
     form = AdminFormaActualizar
     add_form: AdminFormaCreacionUsuario
@@ -403,4 +417,5 @@ class GruposGuardiaAdmin(admin.ModelAdmin):
 admin.site.register(Personal, UserAdmin)
 admin.site.register(Puntajes, PuntajeAdmin)
 admin.site.register(GruposGuardia, GruposGuardiaAdmin)
+admin.site.register(Licencias)
 
