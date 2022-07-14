@@ -11,7 +11,7 @@ def autenticacion(request):
 def logear(request):
     if request.user.is_authenticated:
         return redirect('inicio')
-    if request.method == 'POST':
+    elif request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             nombre_usuario = form.cleaned_data.get('username')
@@ -20,10 +20,10 @@ def logear(request):
             if usuario is not None:
                 login(request, usuario)
                 return redirect('inicio')
-            else: 
-                messages.error(request, 'Usuario no válido.')
         else:
             messages.error(request, 'Información incorrecta.')
+            return redirect('login')
+
     form = AuthenticationForm()
     return render(request, 'login/login.html', {'form':form})
 

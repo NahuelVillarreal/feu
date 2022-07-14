@@ -273,10 +273,20 @@ class Licencias(models.Model):
     TIPOS = [('A', 'Anual'), ('C', 'Casamiento'), ('E', 'Estudio'), ('I', 'Enfermedad'), ('F', 'Fallecimiento de Familiar'), 
     ('N', 'Nacimiento'), ('P', 'Embarazo')]
     persona = models.ForeignKey(Personal, null=True, on_delete=models.CASCADE)
-    inicio = models.DateTimeField()
-    finalizacion = models.DateTimeField()
+    inicio = models.DateField()
+    finalizacion = models.DateField()
     tipo = models.CharField(max_length=1, choices=TIPOS)
     
+    class Meta:
+        verbose_name = 'Licencia'
+        verbose_name_plural = 'Licencias'
+
+    def __str__(self):
+        return str('{}. Licencia por {} desde {} hasta {}'.format(
+            self.persona.apellido+self.persona.nombre, self.tipo, self.inicio, self.finalizacion
+        ))
+
+
 class GruposGuardia(models.Model):
     GRUPOS = [(1, 'GRUPO 1'), (2, 'GRUPO 2'), (3, 'GRUPO 4'), (4, 'GRUPO 4')]
     grupo = models.IntegerField(choices=GRUPOS, primary_key=True)

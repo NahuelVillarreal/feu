@@ -82,15 +82,12 @@
           <label for="floatingPassword">Contraseña</label>
         </div>
         {% if messages %}
-        {% for mensaje in messages %}
-        {{mensaje}}
-        {% endfor %}
-        {% endif %}
-        <div class="checkbox mb-3">
-          <label>
-            <input type="checkbox" value="remember-me"> Recuérdame
-          </label>
+        <div class="alert alert-danger">
+          {% for mensaje in messages %}
+            {{mensaje}}
+          {% endfor %}
         </div>
+        {% endif %}
         <button class="w-100 btn btn-lg btn-primary" type="submit" value="Submit">Iniciar sesión</button>
       </form>
     </main>
