@@ -65,13 +65,13 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
     estudios = models.FileField(upload_to=path_estudios, blank=True, null=True)
 
     #DATOS CUARTELISTICOS
-    JERARQUIAS = [('AS', 'ASPIRANTE'), ('BO', 'BOMBERO'), ('SS', 'SUBOF. SUBAYUDANTE'), ('SA', 'SUBOF. AYUDANTE'), ('SA1', 'SUBOF. AYUDANTE DE 1RA'), ('SAP', 'SUBOF. AYUDANTE PRINCIPAL'), 
-    ('SAM', 'SUBOF. AYUDANTE MAYOR'), ('O3', 'OF. 3ERO'), ('O2', 'OF. 2DO'), ('O1', 'OF. 1ERO'), ('SC', 'SUBCOMANDANTE'), ('C', 'COMANDANTE'), ('CM', 'COMANDANTE MAYOR'), ('CG', 'COMANDANTE GENERAL') ]
+    JERARQUIAS = [(1, 'ASPIRANTE'), (2, 'BOMBERO'), (3, 'SUBOF. SUBAYUDANTE'), (4, 'SUBOF. AYUDANTE'), (5, 'SUBOF. AYUDANTE DE 1RA'), (6, 'SUBOF. AYUDANTE PRINCIPAL'), 
+    (7, 'SUBOF. AYUDANTE MAYOR'), (8, 'OF. 3ERO'), (9, 'OF. 2DO'), (10, 'OF. 1ERO'), (11, 'SUBCOMANDANTE'), (12, 'COMANDANTE'), (13, 'COMANDANTE MAYOR'), (14, 'COMANDANTE GENERAL') ]
     CUERPO = [('A', 'ACTIVO'), ('R', 'RESERVA'), ('I', 'INACTIVO'), ('O', 'OTRO')]
     SECCIONES = [('JE', 'JEFATURA'), ('EQ', 'EQUIPOS'), ('AU', 'AUTOMOTORES'), ('PE', 'PERSONAL'), ('OT', 'OTROS')]
     matricula = models.CharField(max_length=5, unique=True, primary_key=True)
     cuerpo = models.CharField(max_length=20, choices=CUERPO, blank=True)
-    jerarquia = models.CharField(max_length=20, choices=JERARQUIAS, blank=True)
+    jerarquia = models.IntegerField(choices=JERARQUIAS, null=True)
     seccion = models.CharField(max_length=20, choices=SECCIONES, blank=True)
     fecha_alta = models.DateField(blank=True, null=True)
 
@@ -249,7 +249,10 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
         return (float(self.puntaje_asistencias_mensual())+float(self.puntaje_guardias_mensual())+float(self.puntaje_oi_mensual())+float(self.puntaje_toques_mensual()))
 
     def grupo_guardia(self):
-        return GruposGuardia.objects.filter(miembros=self.matricula)[0]
+        try:
+            return GruposGuardia.objects.filter(miembros=self.matricula)[0]
+        except:
+            return 'No asignado'
 
     def __str__(self):
         return self.apellido.upper() + ', ' + self.nombre
@@ -297,4 +300,7 @@ class GruposGuardia(models.Model):
         verbose_name_plural = 'Grupos'
 
     def __str__(self):
-        return str(self.grupo)
+        return 'Grupo {}'.format(str(self.grupo))
+
+    def encargado_guardia(self):
+        return self.miembros[0]
