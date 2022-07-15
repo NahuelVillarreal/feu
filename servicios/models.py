@@ -38,13 +38,7 @@ class Servicios(models.Model):
     entre_calles = models.CharField(max_length=80, blank=True)
     ruta = models.CharField(max_length=20, blank=True)
     km = models.SmallIntegerField(null=True, blank=True)
-    #propietario
-    propietario = models.CharField(max_length=50, blank=True, verbose_name="Nombre propietario")
-    dni_propietario = models.IntegerField(null=True, blank=True, verbose_name="DNI")
-    tel_propietario = models.IntegerField(null=True, blank=True, verbose_name="Telefono")
-    dom_propietario = models.CharField(max_length=60, blank=True, verbose_name="Domicilio")
-    seguro = models.CharField(max_length=50, blank=True)
-    n_poliza = models.IntegerField(null=True, blank=True, verbose_name="N° poliza")
+    
     #servicio
     metodo_ataque = models.CharField(max_length=50, blank=True)
     obs = models.TextField(blank=True, verbose_name="Observaciones")
@@ -79,4 +73,30 @@ class Asistencias(models.Model):
 class Imagenes(models.Model):
     servicio = models.ForeignKey(Servicios, on_delete=models.CASCADE)
     imagenes = models.ImageField(upload_to=path_fotos)
+    class Meta:
+        verbose_name = 'Imagen'
+        verbose_name_plural = 'Imagenes'
 
+class Involucrados(models.Model):
+    servicio = models.ForeignKey(Servicios, on_delete=models.CASCADE)
+    persona = models.CharField(max_length=50, blank=True)
+    razon = models.CharField(max_length=50, blank=True)
+    dni = models.IntegerField(null=True, blank=True, verbose_name="DNI")
+    tel = models.IntegerField(null=True, blank=True, verbose_name="Telefono")
+    dom = models.CharField(max_length=60, blank=True, verbose_name="Domicilio")
+    extra = models.TextField(blank=True, verbose_name="Observaciones")
+    class Meta:
+        verbose_name = 'Persona involucrada'
+        verbose_name_plural = 'Personas involucradas'
+
+class VehiculosInvolucrados(models.Model):
+    servicio = models.ForeignKey(Servicios, on_delete=models.CASCADE)
+    tipo_vehiculo = models.CharField(max_length=50, blank=True, verbose_name="Tipo de vehículo")
+    marca = models.CharField(max_length=30, blank=True)
+    modelo = models.CharField(max_length=30, blank=True)
+    dominio = models.CharField(max_length=30, blank=True)
+    agno = models.IntegerField(null=True, verbose_name="Año")
+    extra1 = models.TextField(blank=True, verbose_name="Observaciones")
+    class Meta:
+        verbose_name = 'Vehiculo involucrado'
+        verbose_name_plural = 'Vehiculos involucrados'
