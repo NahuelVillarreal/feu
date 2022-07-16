@@ -289,9 +289,8 @@ class Licencias(models.Model):
             self.persona.apellido+self.persona.nombre, self.tipo, self.inicio, self.finalizacion
         ))
 
-
 class GruposGuardia(models.Model):
-    GRUPOS = [(1, 'GRUPO 1'), (2, 'GRUPO 2'), (3, 'GRUPO 4'), (4, 'GRUPO 4')]
+    GRUPOS = [(1, 'GRUPO 1'), (2, 'GRUPO 2'), (3, 'GRUPO 3'), (4, 'GRUPO 4')]
     grupo = models.IntegerField(choices=GRUPOS, primary_key=True)
     miembros = models.ManyToManyField(Personal, blank=True, related_name='miembros')
 
@@ -303,4 +302,4 @@ class GruposGuardia(models.Model):
         return 'Grupo {}'.format(str(self.grupo))
 
     def encargado_guardia(self):
-        return self.miembros[0]
+        return Personal.objects.filter(miembros__grupo=self.grupo).order_by('-jerarquia', 'fecha_alta')[0]

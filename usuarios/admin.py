@@ -407,8 +407,10 @@ class PuntajeAdmin(admin.ModelAdmin):
     filter_horizontal = ()
 
 class GruposGuardiaAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'encargado_guardia')
+    readonly_fields = ('encargado_guardia',)
     fieldsets = (
-        (None, {'fields': ('grupo',)}),
+        (None, {'fields': ('grupo', 'encargado_guardia')}),
         ('Miembros', {'fields': ('miembros', )}),
     )
     filter_horizontal = ('miembros',)
