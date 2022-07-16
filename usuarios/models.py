@@ -3,7 +3,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
 import os
-from datetime import datetime
+from datetime import datetime, date
 
 #<---------------------------------Modelo de usuarios------------------------------------->
 # Create your models here.
@@ -271,8 +271,8 @@ class Puntajes(models.Model):
         verbose_name = 'Puntaje'
         verbose_name_plural = 'Puntajes'
 
-    def __str__(self):
-        return self.persona.apellido
+    def nombre_persona(self):
+        return (str(self.persona.apellido) + str(self.persona.nombre))
 
 class Licencias(models.Model):
     TIPOS = [('A', 'Anual'), ('C', 'Casamiento'), ('E', 'Estudio'), ('I', 'Enfermedad'), ('F', 'Fallecimiento de Familiar'), 
@@ -290,6 +290,12 @@ class Licencias(models.Model):
         return str('{}. Licencia por {} desde {} hasta {}'.format(
             self.persona.apellido+self.persona.nombre, self.tipo, self.inicio, self.finalizacion
         ))
+    
+    def activa(self):
+        if self.inicio<date.today() and self.finalizacion>date.today():
+            return 'Vigente'
+        else:
+            return 'No vigente'
 
 class GruposGuardia(models.Model):
     GRUPOS = [(1, 'GRUPO 1'), (2, 'GRUPO 2'), (3, 'GRUPO 3'), (4, 'GRUPO 4')]
