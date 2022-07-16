@@ -394,8 +394,8 @@ class UserAdmin(BaseUserAdmin):
 
 class PuntajeAdmin(admin.ModelAdmin):
     readonly_fields=()
-    list_display = ('persona',)
-    list_filter = ('mes', 'persona__seccion')
+    list_display = ('persona', 'mes')
+    list_filter = ('mes', 'persona', 'persona__seccion')
     fieldsets = (
         (None, {'fields': ('persona', 'mes',)}),
         ('Orden interno', {'fields': ('orden_interno', )}),
@@ -416,8 +416,18 @@ class GruposGuardiaAdmin(admin.ModelAdmin):
     filter_horizontal = ('miembros',)
     ordering = ('grupo',)
 
+class LicenciasAdmin(admin.ModelAdmin):
+    list_display = ('persona', 'inicio', 'finalizacion', 'tipo', 'activa')
+    readonly_fields = ()
+    fieldsets = (
+        (None, {'fields': ('persona', 'tipo')}),
+        ('Fechas', {'fields': ('inicio', 'finalizacion' )}),
+    )
+    filter_horizontal = ()
+    ordering = ()
+
 admin.site.register(Personal, UserAdmin)
 admin.site.register(Puntajes, PuntajeAdmin)
 admin.site.register(GruposGuardia, GruposGuardiaAdmin)
-admin.site.register(Licencias)
+admin.site.register(Licencias, LicenciasAdmin)
 
