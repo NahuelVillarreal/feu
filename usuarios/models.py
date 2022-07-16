@@ -201,7 +201,8 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
         suma = 0
         for mes in range(1, datetime.now().month+1):
             try:
-                suma += 20*self.personal_asistencia.filter(t_asistencia_inicio__month = mes).count()/Asistencias.objects.filter(t_asistencia_inicio__month = mes).count()
+                suma += 14*self.personal_asistencia.filter(t_asistencia_inicio__month = mes, motivo = 'C').count()/Asistencias.objects.filter(t_asistencia_inicio__month = mes, motivo = 'C').count()
+                suma += 6*self.personal_asistencia.filter(t_asistencia_inicio__month = mes).exclude(motivo = 'C').count()/Asistencias.objects.filter(t_asistencia_inicio__month = mes).exclude(motivo = 'C').count()
             except ZeroDivisionError:
                 suma +=20.0
         return str(round(suma, 2))
@@ -209,7 +210,8 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
     def puntaje_asistencias_mensual(self):
         from servicios.models import Asistencias
         try:
-            suma = 20*self.personal_asistencia.filter(t_asistencia_inicio__month = datetime.now().month).count()/Asistencias.objects.filter(t_asistencia_inicio__month = datetime.now().month).count()
+            suma = 14*self.personal_asistencia.filter(t_asistencia_inicio__month = datetime.now().month, motivo = 'C').count()/Asistencias.objects.filter(t_asistencia_inicio__month = datetime.now().month, motivo = 'C').count()
+            suma += 6*self.personal_asistencia.filter(t_asistencia_inicio__month = datetime.now().month).exclude(motivo = 'C').count()/Asistencias.objects.filter(t_asistencia_inicio__month = datetime.now().month).exclude(motivo = 'C').count()
         except ZeroDivisionError:
             suma = 20.0
         return str(round(suma, 2))
