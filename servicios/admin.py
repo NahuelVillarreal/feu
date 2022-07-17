@@ -43,6 +43,7 @@ class ServicioAdmin(admin.ModelAdmin):
 
 class AsistenciasAdmin(admin.ModelAdmin):
     filter_horizontal = ('personal_asistencia',)
+    list_display = ('__str__', 't_asistencia_inicio')
 
 admin.site.register(Servicios, ServicioAdmin)
 admin.site.register(Asistencias, AsistenciasAdmin)

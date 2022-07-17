@@ -147,32 +147,52 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
     #porcentajes
     def porcentaje_toques_anual(self):
         from servicios.models import Servicios
+        from .models import Licencias
+        toques_con_licencia = Servicios.objects.filter(tipo_convocatoria = 't')
+        resta = 0
+        for licencia in Licencias.objects.filter(persona = self.matricula):
+            resta += toques_con_licencia.filter(t_toque__date__range=[licencia.inicio, licencia.finalizacion]).count()
         try:
-            porc = 100*self.personal.filter(tipo_convocatoria = 't').count()/Servicios.objects.filter(tipo_convocatoria = 't').count()
+            porc = 100*self.personal.filter(tipo_convocatoria = 't').count()/(Servicios.objects.filter(tipo_convocatoria = 't').count()-resta)
         except ZeroDivisionError:
             porc = 100.0
         return str(round(porc,2)) + '%'
 
     def porcentaje_toques_mensual(self):
         from servicios.models import Servicios
+        from .models import Licencias
+        toques_con_licencia = Servicios.objects.filter(tipo_convocatoria = 't', t_toque__month = datetime.now().month)
+        resta = 0
+        for licencia in Licencias.objects.filter(persona = self.matricula):
+            resta += toques_con_licencia.filter(t_toque__date__range=[licencia.inicio, licencia.finalizacion]).count()
         try:
-            porc = 100*self.personal.filter(tipo_convocatoria = 't', t_toque__month = datetime.now().month).count()/Servicios.objects.filter(tipo_convocatoria = 't', t_toque__month = datetime.now().month).count()
+            porc = 100*self.personal.filter(tipo_convocatoria = 't', t_toque__month = datetime.now().month).count()/(Servicios.objects.filter(tipo_convocatoria = 't', t_toque__month = datetime.now().month).count() - resta)
         except ZeroDivisionError:
             porc = 100.0
         return str(round(porc,2)) + '%'
 
     def porcentaje_asistencia_anual(self):
         from servicios.models import Asistencias
+        from .models import Licencias
+        asistencias_con_licencia = Asistencias.objects.all()
+        resta = 0
+        for licencia in Licencias.objects.filter(persona = self.matricula):
+            resta += asistencias_con_licencia.filter(t_asistencia_inicio__date__range=[licencia.inicio, licencia.finalizacion]).count()
         try:
-            porc = 100*self.personal_asistencia.count()/Asistencias.objects.count()
+            porc = 100*self.personal_asistencia.count()/(Asistencias.objects.count() - resta)
         except ZeroDivisionError:
             porc = 100.0
         return str(round(porc,2)) + '%'
 
     def porcentaje_asistencia_mensual(self):
         from servicios.models import Asistencias
+        from .models import Licencias
+        asistencias_con_licencia = Asistencias.objects.filter(t_asistencia_inicio__month = datetime.now().month)
+        resta = 0
+        for licencia in Licencias.objects.filter(persona = self.matricula):
+            resta += asistencias_con_licencia.filter(t_asistencia_inicio__date__range=[licencia.inicio, licencia.finalizacion]).count()
         try:
-            porc = 100*self.personal_asistencia.filter(t_asistencia_inicio__month = datetime.now().month).count()/Asistencias.objects.filter(t_asistencia_inicio__month = datetime.now().month).count()
+            porc = 100*self.personal_asistencia.filter(t_asistencia_inicio__month = datetime.now().month).count()/(Asistencias.objects.filter(t_asistencia_inicio__month = datetime.now().month).count() - resta)
         except ZeroDivisionError:
             porc = 100.0
         return str(round(porc,2)) + '%'   
