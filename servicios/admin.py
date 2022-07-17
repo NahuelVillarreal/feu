@@ -24,7 +24,7 @@ class VehiculosInvolucradosInline(admin.StackedInline):
 
 class ServicioAdmin(admin.ModelAdmin):
     inlines = [InvolucradosInline, VehiculosInvolucradosInline, ImagenesInline]
-    list_display = ('n_servicio','t_toque', 'tipo')
+    list_display = ('__str__','t_toque', 'tipo')
     list_filter = ('tipo_convocatoria', 'tipo', 't_toque','personal')
     preserve_filters = True
     fieldsets = (
@@ -37,13 +37,15 @@ class ServicioAdmin(admin.ModelAdmin):
         (None, {'fields': ('tipo', 'tipo_convocatoria', 't_toque', )}),
     )
     
-    search_fields = ('personal__apellido', 'personal__nombre', 'personal__matricula')
+    search_fields = ('personal__apellido', 'personal__nombre', 'personal__matricula', 't_toque__month', 'tipo', 'tipo_convocatoria')
     ordering = ('n_servicio',)
     filter_horizontal = ('vehiculos', 'personal')
 
 class AsistenciasAdmin(admin.ModelAdmin):
     filter_horizontal = ('personal_asistencia',)
-    list_display = ('__str__', 't_asistencia_inicio')
-
+    list_display = ('__str__', 't_asistencia_inicio', 'motivo')
+    list_filter = ('motivo', 't_asistencia_inicio', 'personal_asistencia')
+    search_fields = ('personal_asistencia__apellido', 'personal_asistencia__nombre', 'personal_asistencia__matricula', 'motivo')
+    ordering = ('n_asistencia',)
 admin.site.register(Servicios, ServicioAdmin)
 admin.site.register(Asistencias, AsistenciasAdmin)
