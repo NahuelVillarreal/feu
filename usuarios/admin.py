@@ -426,6 +426,9 @@ class LicenciasAdmin(admin.ModelAdmin):
     filter_horizontal = ()
     ordering = ()
 
+class CursosAdmin(admin.ModelAdmin):
+    filter_horizontal = ('participantes', )
+
 admin.site.register(Personal, UserAdmin)
 admin.site.register(Puntajes, PuntajeAdmin)
 admin.site.register(GruposGuardia, GruposGuardiaAdmin)

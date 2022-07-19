@@ -331,3 +331,18 @@ class GruposGuardia(models.Model):
 
     def encargado_guardia(self):
         return Personal.objects.filter(miembros__grupo=self.grupo).order_by('-jerarquia', 'fecha_alta')[0]
+
+class Cursos(models.Model):
+    METODOLOGIA = [('P', 'PRESENCIAL'), ('V', 'VIRTUAL'), ('M', 'MIXTO')]
+    nombre = models.CharField(max_length=50)
+    t_inicio_curso = models.DateTimeField()
+    t_finalizacion_curso = models.DateTimeField()
+    metodologia = models.CharField(max_length=1, choices=METODOLOGIA)
+    participantes = models.ManyToManyField(Personal, blank=True)
+
+    class Meta:
+        verbose_name = 'Curso'
+        verbose_name_plural = 'Cursos'
+
+    def __str__(self):
+        return 'Curso "{}"'.format(self.nombre)
