@@ -1,3 +1,4 @@
+from fileinput import filename
 from tabnanny import verbose
 from django.db import models
 from django.conf import settings
@@ -10,16 +11,19 @@ from datetime import datetime, date
 
 def path_fotos(instance, filename):  #define ruta de archivo
     try:
-        ruta = os.path.join(settings.MEDIA_ROOT, '{}/{}-{}.JPG'.format("fotos-perfil", instance.nombre[0], instance.apellido))
+        ruta = os.path.join(settings.MEDIA_ROOT, '{}/{}-{}.JPG'.format("fotos-perfil", instance.matricula, instance.apellido))
         if os.path.exists(ruta):
             os.remove(ruta)
     except FileNotFoundError:
         pass
-    return '{}/{}-{}.JPG'.format("fotos-perfil", instance.nombre[0], instance.apellido)
+    return '{}/{}-{}.JPG'.format("fotos-perfil", instance.matricula, instance.apellido)
 
 def path_estudios(instance, filename):  #define ruta de archivo
     ext = filename.split('.')[-1]
     return '{}/{}_{}/{}_{}.{}'.format("estudios", instance.nombre, instance.apellido, datetime.today().strftime('%Y-%m-%d') , filename, ext)
+
+def path_sanciones(instance, filename):
+    return 'sanciones/{}_{}/{}-{}'.format(instance.sancionado.nombre, instance.sancionado.apellido, datetime.today().strftime('%Y-%m-%d'), filename)
 
 class ManejadorUsuario(BaseUserManager):
 
@@ -301,6 +305,13 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
             dias += (licencia.finalizacion - licencia.inicio).days
         return dias        
 
+    def cant_sanciones(self):
+        sanciones = Sanciones.objects.filter(sancionado=self.matricula)
+        dias = 0
+        for sancion in sanciones:
+            dias += sanciones.dias
+        return '{} ({} dias)'.format(sanciones.count(), dias)
+
     def __str__(self):
         return self.apellido.upper() + ', ' + self.nombre
 
@@ -333,7 +344,7 @@ class Licencias(models.Model):
 
     def __str__(self):
         return str('{}. Licencia por {} desde {} hasta {}'.format(
-            self.persona.apellido+self.persona.nombre, self.tipo, self.inicio, self.finalizacion
+            self.persona.apellido+' '+self.persona.nombre, self.tipo, self.inicio, self.finalizacion
         ))
     
     def activa(self):
@@ -371,3 +382,18 @@ class Cursos(models.Model):
 
     def __str__(self):
         return 'Curso "{}"'.format(self.nombre)
+
+class Sanciones(models.Model):
+    sancionado = models.ForeignKey(Personal, on_delete=models.CASCADE)
+    dias = models.IntegerField()
+    titulo = models.CharField(max_length=50)
+    descripcion = models.CharField(max_length=400)
+    adjunto = models.FileField(upload_to=path_sanciones, null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Sanción'
+        verbose_name_plural = 'Sanciones'
+
+    def __str__(self):
+        return 'Sanción de {} dias para {}.'.format(str(self.dias), self.sancionado)
+            

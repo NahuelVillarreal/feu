@@ -51,7 +51,7 @@ class Servicios(models.Model):
         verbose_name_plural = ('Servicios')
 
     def __str__(self):
-        return 'Servicio N°' + str(self.n_servicio) + '/' + str(self.t_toque.year)
+        return 'Servicio N° {}/{}'.format(str(self.n_servicio), str(self.t_toque.year))
 
 class Asistencias(models.Model):
     MOTIVOS = [('A', 'ASISTENCIA'), ('C', 'CAPACITACIÓN'), ('D', 'CEREMONIAS'), ('O', 'OTROS')]
