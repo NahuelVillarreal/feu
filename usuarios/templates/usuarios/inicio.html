@@ -15,12 +15,12 @@
     </h1>
 </div>    
 <div class="container bootstrap snippets bootdey">
-        <div class="divisor shadow rounded">Estad&iacutesticas anuales</div>
           <div class="row">
+            <div class="divisor shadow rounded">Estad&iacutesticas anuales</div>
                 <div class="col-md-6">
                     <div class="lateral"></div>
                     <div class="titulo-etiqueta">
-                       <img src="{% static 'usuarios/img/grafico-histograma.png' %}" width="25px"> PUNTAJE TOTAL
+                       <img src="{% static 'usuarios/img/grafico-histograma.png' %}" width="25px"> PUNTAJE
                     </div> 
                     <div class="numero red">
                         {{user.puntaje_total_anual}}
@@ -33,7 +33,7 @@
                        <img src="{% static 'usuarios/img/grafico-histograma.png' %}" width="25px"> &#37; TOQUES
                     </div> 
                     <div class="numero red">
-                        {{user.puntaje_total_anual}}
+                        {{user.porcentaje_toques_anual}}
                     </div> 
                 </div>
                 
@@ -43,59 +43,59 @@
                        <img src="{% static 'usuarios/img/grafico-histograma.png' %}" width="25px"> &#37; ASISTENCIAS
                     </div> 
                     <div class="numero red">
-                        {{user.puntaje_total_anual}}
+                        {{user.porcentaje_asistencias_anual}}
                     </div> 
                 </div>
 
                 <div class="col-md-6">
                     <div class="lateral"></div>
                     <div class="titulo-etiqueta">
-                       <img src="{% static 'usuarios/img/grafico-histograma.png' %}" width="25px"> LICENCIAS
+                       <img src="{% static 'usuarios/img/plane.png' %}" width="25px"> DIAS LICENCIA
                     </div> 
                     <div class="numero red">
-                        {{user.puntaje_total_anual}}
+                        {{user.cant_licencias}}
                     </div> 
                 </div>
 
                 <div class="col-md-6">
                     <div class="lateral"></div>
                     <div class="titulo-etiqueta">
-                       <img src="{% static 'usuarios/img/grafico-histograma.png' %}" width="25px"> SANCIONES
+                       <img src="{% static 'usuarios/img/prohibicion.png' %}" width="25px"> SANCIONES
                     </div> 
                     <div class="numero red">
-                        {{user.puntaje_total_anual}}
+                        {{user.puntaje_total_mensual}}
                     </div> 
                 </div>
                 
-        <div class="divisor shadow rounded">Estad&iacutesticas mensuales</div>
+            <div class="divisor shadow rounded">Estad&iacutesticas mensuales</div>
 
                 <div class="col-md-6">
                     <div class="lateral"></div>
                     <div class="titulo-etiqueta">
-                    <img src="{% static 'usuarios/img/grafico-histograma.png' %}" width="25px"> PUNTAJE MENSUAL
+                    <img src="{% static 'usuarios/img/grafico-histograma.png' %}" width="25px"> PUNTAJE
                     </div> 
                     <div class="numero red">
-                        {{user.puntaje_total_anual}}
+                        {{user.puntaje_total_mensual}}
                     </div> 
                 </div>
 
                 <div class="col-md-6">
                     <div class="lateral"></div>
                     <div class="titulo-etiqueta">
-                       <img src="{% static 'usuarios/img/grafico-histograma.png' %}" width="25px"> &#37; TOQUES MENSUAL
+                       <img src="{% static 'usuarios/img/grafico-histograma.png' %}" width="25px"> &#37; TOQUES
                     </div> 
                     <div class="numero red">
-                        {{user.puntaje_total_anual}}
+                        {{user.porcentaje_toques_mensual}}
                     </div> 
                 </div>
 
                 <div class="col-md-6">
                     <div class="lateral"></div>
                     <div class="titulo-etiqueta">
-                       <img src="{% static 'usuarios/img/grafico-histograma.png' %}" width="25px"> &#37; ASISTENCIAS MENSUAL
+                       <img src="{% static 'usuarios/img/grafico-histograma.png' %}" width="25px"> &#37; ASISTENCIAS
                     </div> 
                     <div class="numero red">
-                        {{user.puntaje_total_anual}}
+                        {{user.porcentaje_asistencias_mensual}}
                     </div> 
                 </div>
             

@@ -9,10 +9,13 @@ from datetime import datetime, date
 # Create your models here.
 
 def path_fotos(instance, filename):  #define ruta de archivo
-    ruta = os.path.join(settings.MEDIA_ROOT, '{}/{}-{}.JPG'.format("fotos-perfil", instance.nombre, instance.apellido))
-    if os.path.exists(ruta):
-        os.remove(ruta)
-    return '{}/{}-{}.JPG'.format("fotos-perfil", instance.nombre, instance.apellido)
+    try:
+        ruta = os.path.join(settings.MEDIA_ROOT, '{}/{}-{}.JPG'.format("fotos-perfil", instance.nombre[0], instance.apellido))
+        if os.path.exists(ruta):
+            os.remove(ruta)
+    except FileNotFoundError:
+        pass
+    return '{}/{}-{}.JPG'.format("fotos-perfil", instance.nombre[0], instance.apellido)
 
 def path_estudios(instance, filename):  #define ruta de archivo
     ext = filename.split('.')[-1]
@@ -61,7 +64,7 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
     lugar_nacimiento = models.CharField(max_length=50, blank=True)
     sexo = models.CharField(max_length=9, choices= SEXO, blank=True)
     grupo_sanguineo = models.CharField(max_length=20, choices=TIPOS_DE_SANGRE, blank=True)
-    foto_perfil = models.ImageField(upload_to=path_fotos, blank=True, null=True)
+    foto_perfil = models.ImageField(upload_to=path_fotos, blank=True, null=True, default="fotos-perfil/firefighter.png")
     estudios = models.FileField(upload_to=path_estudios, blank=True, null=True)
 
     #DATOS CUARTELISTICOS
@@ -103,6 +106,21 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
     def is_active(self):
         #usuario activo?
         return self.active
+
+    def save(self, *args, **kwargs):
+        from PIL import Image
+        super().save()
+        img = Image.open(self.foto_perfil.path)
+        width, height = img.size
+        if height>width:
+            img = img.crop((0, 0, width, width))
+        elif width>height:
+            img = img.crop((0, 0, height, height))
+        else:
+            img = img
+        if img.width>400:
+            img = img.resize((400,400))
+        img.save(self.foto_perfil.path)
 
     def get_full_name(self):
         return self.apellido + ' '+ self.nombre
@@ -171,7 +189,7 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
             porc = 100.0
         return str(round(porc,2)) + '%'
 
-    def porcentaje_asistencia_anual(self):
+    def porcentaje_asistencias_anual(self):
         from servicios.models import Asistencias
         from .models import Licencias
         asistencias_con_licencia = Asistencias.objects.all()
@@ -184,7 +202,7 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
             porc = 100.0
         return str(round(porc,2)) + '%'
 
-    def porcentaje_asistencia_mensual(self):
+    def porcentaje_asistencias_mensual(self):
         from servicios.models import Asistencias
         from .models import Licencias
         asistencias_con_licencia = Asistencias.objects.filter(t_asistencia_inicio__month = datetime.now().month)
@@ -265,16 +283,23 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
         return puntaje_total
 
     def puntaje_total_anual(self):
-        return (float(self.puntaje_asistencias_anual())+float(self.puntaje_guardias_anual())+float(self.puntaje_oi_anual())+float(self.puntaje_toques_anual()))
+        return str(float(self.puntaje_asistencias_anual())+float(self.puntaje_guardias_anual())+float(self.puntaje_oi_anual())+float(self.puntaje_toques_anual()))
 
     def puntaje_total_mensual(self):
-        return (float(self.puntaje_asistencias_mensual())+float(self.puntaje_guardias_mensual())+float(self.puntaje_oi_mensual())+float(self.puntaje_toques_mensual()))
+        return str(float(self.puntaje_asistencias_mensual())+float(self.puntaje_guardias_mensual())+float(self.puntaje_oi_mensual())+float(self.puntaje_toques_mensual()))
 
     def grupo_guardia(self):
         try:
             return GruposGuardia.objects.filter(miembros=self.matricula)[0]
         except:
             return 'No asignado'
+
+    def cant_licencias(self):
+        licencias = Licencias.objects.filter(persona=self.matricula)
+        dias = 0
+        for licencia in licencias:
+            dias += (licencia.finalizacion - licencia.inicio).days
+        return dias        
 
     def __str__(self):
         return self.apellido.upper() + ', ' + self.nombre

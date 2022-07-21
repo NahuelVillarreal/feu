@@ -363,8 +363,8 @@ class UserAdmin(BaseUserAdmin):
     add_form: AdminFormaCreacionUsuario
     
     readonly_fields=('last_login', 'antiguedad', 'servicios_totales', 'servicios_con_toque_anual', 'servicios_con_toque_mensual',
-    'asistencia_anual', 'asistencia_mensual', 'porcentaje_toques_anual', 'porcentaje_asistencia_anual', 'porcentaje_toques_mensual', 
-    'porcentaje_asistencia_mensual', 'puntaje_toques_anual', 'puntaje_toques_mensual', 'puntaje_asistencias_anual', 'puntaje_asistencias_mensual',
+    'asistencia_anual', 'asistencia_mensual', 'porcentaje_toques_anual', 'porcentaje_asistencias_anual', 'porcentaje_toques_mensual', 
+    'porcentaje_asistencias_mensual', 'puntaje_toques_anual', 'puntaje_toques_mensual', 'puntaje_asistencias_anual', 'puntaje_asistencias_mensual',
     'grupo_guardia', 'puntaje_guardias_mensual', 'puntaje_guardias_anual', 'puntaje_oi_anual', 'puntaje_oi_mensual',
     'puntaje_total_anual', 'puntaje_total_mensual')
     list_display = ('matricula','get_full_name', 'jerarquia' , 'admin', 'seccion')
@@ -377,7 +377,7 @@ class UserAdmin(BaseUserAdmin):
         ('Otros', {'fields': ('last_login', 'antiguedad')}),
         ('Servicios', {'fields': ('servicios_totales', ('servicios_con_toque_anual', 'servicios_con_toque_mensual'),
         ('asistencia_anual', 'asistencia_mensual'),)}),
-        ('Porcentajes', {'fields': (('porcentaje_toques_anual', 'porcentaje_toques_mensual'), ('porcentaje_asistencia_anual', 'porcentaje_asistencia_mensual'))}),
+        ('Porcentajes', {'fields': (('porcentaje_toques_anual', 'porcentaje_toques_mensual'), ('porcentaje_asistencias_anual', 'porcentaje_asistencias_mensual'))}),
         ('Puntajes', {'fields': (('puntaje_total_anual', 'puntaje_total_mensual'), ('puntaje_toques_anual', 'puntaje_toques_mensual'), ('puntaje_asistencias_anual', 'puntaje_asistencias_mensual'),
         ('puntaje_guardias_anual', 'puntaje_guardias_mensual'), ('puntaje_oi_anual', 'puntaje_oi_mensual'),)}),
     )
