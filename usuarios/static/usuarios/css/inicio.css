@@ -1,84 +1,62 @@
-.bio-chart, .bio-desk {
-    float: left;
+.bootdey {
+    width: 70%;
 }
-
-.bio-chart {
-    width: 46%;
-}
-
-.bio-desk {
-    width: 54%;
-}
-
-.bio-desk h4 {
-    font-size: 1.5em;
-    font-weight:400;
-    text-align: center;
-    padding-top: 0.2em;
+.col-md-6 {
+    background-color: white;
+    margin: 1% auto;
+    box-shadow: 0 3px 5px 3px rgba(0, 0, 0, 0.26);   
+    border-radius: 0 10px 10px 0;
+    width: 280px;
     padding-left: 0;
 }
 
-.bio-desk p {
-    margin:0;
+.red {
+    color: #c74332;
 }
 
-.col-md-6 {
-    background-color: white;
-    width: 350px;
-    margin: 1% auto;
-    box-shadow: 0 3px 5px 3px rgba(0, 0, 0, 0.26) ;   
+.titulo-etiqueta{
+    height: 30%;
+    width: 100%;
+    font-size: 1.5em;
+    font-weight: 300;
+    text-align: center;
+    padding-top: 0.7em;
+    padding-left: 0;
 }
 
-.knob {
-    width: 130px; 
-    height: 40px; 
-    position: relative;
-    bottom: 57px; 
-    border: 0px; 
+.numero {
+    text-align: center;
+    height: 70%;
+    width: 100%;
     font-weight: bold; 
     font-style: normal; 
     font-variant: normal; 
     font-stretch: normal; 
-    font-size: 36px; 
+    font-size: 3em; 
     line-height: normal; 
     text-align: center; 
-    padding: 0px; 
+    padding: 3%; 
     -webkit-appearance: none; 
     background: none;
+    vertical-align: middle;
 }
 
-.bio-desk h4.terques {
-    color: #4CC5CD;
+.lateral {
+    float: left;
+    background-color: #c74332;
+    width: 10px;
+    height: 100%;
+    margin: 0;
 }
 
-.bio-desk h4.red {
-    color: #e26b7f;
-}
-
-.bio-desk h4.green {
-    color: #97be4b;
-}
-
-.bio-desk h4.purple {
-    color: #caa3da;
-}
-
-.terques {
-    color: #4CC5CD;
-}
-
-.red {
-    color: #e26b7f;
-}
-
-.green {
-    color: #97be4b;
-}
-
-.purple {
-    color: #caa3da;
-}
-
-.titulo h1 {
-    text-align: center;
+.divisor {
+    background-color: #c74332;
+    width: 100%;
+    height: 2.5em;
+    text-align: left;
+    vertical-align: middle;
+    padding: 10px;
+    font-size: 1.6em;
+    color: white;
+    font-weight: 700;
 }

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
   <head>
     <meta charset="utf-8">
@@ -6,8 +7,7 @@
     <meta name="author" content="Nahuel Horacio Villarreal" />
     <meta name="copyright" content="Asociación Bomberos Voluntarios de Punta Alta" />
     <title>Feu</title>
-    <link href="https://getbootstrap.com/docs/5.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-    <link rel="manifest" href="https://getbootstrap.com/docs/5.2/assets/img/favicons/manifest.json">
+    <link href="{% static 'sistema/css/bootstrap.min.css' %}" rel="stylesheet">
     <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -60,9 +60,9 @@
         -webkit-overflow-scrolling: touch;
       }
     </style>
-    <link rel="icon" href="../../static/sistema/img/miniatura.ico">
-    <link rel="stylesheet" href="../../static/sistema/css/estilo-login.css">
-    <link rel="stylesheet" href="../../static/sistema/css/estilo-base.css">
+    <link rel="icon" href="{% static 'sistema/img/miniatura.ico' %}">
+    <link rel="stylesheet" href="{% static 'sistema/css/estilo-login.css' %}">
+    <link rel="stylesheet" href="{% static 'sistema/css/estilo-base.css' %}">
   </head>
 
   <body>     
@@ -70,7 +70,7 @@
         <div class="container">
           <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="{% url 'inicio' %}" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-              <img class="bi me-2" width="90" height="90" src="../../static/sistema/img/logo.png" alt="Logo bomberos voluntarios">
+              <img class="bi me-2" width="90" height="90" src="{% static 'sistema/img/logo.png' %}" alt="Logo bomberos voluntarios">
             </a>
     
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
@@ -117,7 +117,7 @@
             </div>
           </div>
         </div>
-        <script src="https://getbootstrap.com/docs/5.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+        <script src="{% static 'sistema/js/bootstrap.bundle.min.js' %}"></script>
     </header>
 
     {% block content %} {% endblock %}

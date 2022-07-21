@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
   <head>
     <meta charset="utf-8">
@@ -6,7 +7,7 @@
     <meta name="author" content="Nahuel Horacio Villarreal" />
     <meta name="copyright" content="Asociación Bomberos Voluntarios de Punta Alta" />
     <title>Feu</title>
-    <link href="https://getbootstrap.com/docs/5.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link href="{% static 'autenticacion/css/bootstrap.min.css' %}" rel="stylesheet">
     <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -59,8 +60,8 @@
         -webkit-overflow-scrolling: touch;
       }
     </style>
-    <link rel="stylesheet" href="../../static/sistema/css/estilo-login.css">
-    <link rel="icon" href="../../static/sistema/img/miniatura.ico">
+    <link rel="stylesheet" href="{% static 'autenticacion/css/estilo-login.css' %}">
+    <link rel="icon" href="{% static 'autenticacion/img/miniatura.ico' %}">
   </head>
 
   <body>
@@ -70,7 +71,7 @@
     </header>
     <main class="form-signin w-100 m-auto">
       <form method="post" action="">{% csrf_token %}
-        <img class="imagen" src="../../static/sistema/img/logo.png" alt="logo" height="150" width="150">
+        <img class="imagen" src="{% static 'autenticacion/img/logo.png' %}" alt="logo" height="150" width="150">
         <h1 class="h3 mb-3 fw-normal">Inicia sesión</h1>
           
         <div class="form-floating">

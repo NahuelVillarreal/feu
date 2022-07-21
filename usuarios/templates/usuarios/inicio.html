@@ -1,7 +1,7 @@
 {% extends "sistema/base.html" %}
-
+{% load static %}
 {% block content %}
-<link rel="stylesheet" href='static/usuarios/css/inicio.css'>
+<link rel="stylesheet" href="{% static 'usuarios/css/inicio.css' %}">
 <div class="titulo">
     <h1>
         {% if user.is_authenticated %}
@@ -15,122 +15,89 @@
     </h1>
 </div>    
 <div class="container bootstrap snippets bootdey">
+        <div class="divisor shadow rounded">Estad&iacutesticas anuales</div>
           <div class="row">
-              <div class="col-md-6">
-                  <div class="panel">
-                      <div class="panel-body">
-                          <div class="bio-chart">
-                              <div style="display:inline;width:100px;height:100px;"><canvas width="100" height="100px"></canvas><input class="knob red" data-width="100" data-height="100" data-displayprevious="true" data-thickness=".2" value={{user.puntaje_total_anual}} data-fgcolor="#e06b7d" data-bgcolor="#e8e8e8"></div>
-                          </div>
-                          <div class="bio-desk">
-                              <h4 class="red">Puntaje Total</h4>
-                              <p>Servicios: {{user.puntaje_toques_anual}}</p>
-                              <p>Guardia: {{user.puntaje_guardias_anual}}</p>
-                              <p>O. Interno: {{user.puntaje_oi_anual}}</p>
-                              <p>Asistencias: {{user.puntaje_asistencias_anual}}</p>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-md-6">
-                  <div class="panel">
-                      <div class="panel-body">
-                          <div class="bio-chart">
-                              <div style="display:inline;width:100px;height:100px;"><canvas width="100" height="100px"></canvas><input class="knob red" data-width="100" data-height="100" data-displayprevious="true" data-thickness=".2" value={{user.porcentaje_toques_anual}} data-fgcolor="#4CC5CD" data-bgcolor="#e8e8e8" ></div>
-                          </div>
-                          <div class="bio-desk">
-                              <h4 class="red">Anual Servicios</h4>
-                              <p>Asistidos: {{user.servicios_con_toque_anual}}</p>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-md-6">
-                  <div class="panel">
-                      <div class="panel-body">
-                          <div class="bio-chart">
-                              <div style="display:inline;width:100px;height:100px;"><canvas width="100" height="100px"></canvas><input class="knob red" data-width="100" data-height="100" data-displayprevious="true" data-thickness=".2" value={{user.porcentaje_asistencia_anual}} data-fgcolor="#cba4db" data-bgcolor="#e8e8e8"></div>
-                          </div>
-                          <div class="bio-desk">
-                              <h4 class="red">&#37; Anual Asistencia</h4>
-                              <p>Cuartel:</p>
-                              <p>Capacitación:</p>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-md-6">
-                <div class="panel">
-                    <div class="panel-body">
-                        <div class="bio-chart">
-                            <div style="display:inline;width:100px;height:100px;"><canvas width="100" height="100px"></canvas><input class="knob red" data-width="100" data-height="100" data-displayprevious="true" data-thickness=".2" value="35" data-fgcolor="#e06b7d" data-bgcolor="#e8e8e8"></div>
-                        </div>
-                        <div class="bio-desk">
-                            <h4 class="red">Puntaje Mensual</h4>
-                            <p>Servicios: </p>
-                            <p>Guardia: </p>
-                            <p>O. Interno: </p>
-                            <p>Asistencias: </p>
-                        </div>
-                    </div>
+                <div class="col-md-6">
+                    <div class="lateral"></div>
+                    <div class="titulo-etiqueta">
+                       <img src="{% static 'usuarios/img/grafico-histograma.png' %}" width="25px"> PUNTAJE TOTAL
+                    </div> 
+                    <div class="numero red">
+                        {{user.puntaje_total_anual}}
+                    </div> 
                 </div>
-            </div>
-              <div class="col-md-6">
-                <div class="panel">
-                    <div class="panel-body">
-                        <div class="bio-chart">
-                            <div style="display:inline;width:100px;height:100px;"><canvas width="100" height="100px"></canvas><input class="knob red" data-width="100" data-height="100" data-displayprevious="true" data-thickness=".2" value="50" data-fgcolor="#cba4db" data-bgcolor="#e8e8e8"></div>
-                        </div>
-                        <div class="bio-desk">
-                            <h4 class="red">&#37; Mensual Servicios</h4>
-                            <p>Total de Servicios:</p>
-                        </div>
-                    </div>
+
+                <div class="col-md-6">
+                    <div class="lateral"></div>
+                    <div class="titulo-etiqueta">
+                       <img src="{% static 'usuarios/img/grafico-histograma.png' %}" width="25px"> &#37; TOQUES
+                    </div> 
+                    <div class="numero red">
+                        {{user.puntaje_total_anual}}
+                    </div> 
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="panel">
-                    <div class="panel-body">
-                        <div class="bio-chart">
-                            <div style="display:inline;width:100px;height:100px;"><canvas width="100" height="100px"></canvas><input class="knob red" data-width="100" data-height="100" data-displayprevious="true" data-thickness=".2" value="50" data-fgcolor="#cba4db" data-bgcolor="#e8e8e8" ></div>
-                        </div>
-                        <div class="bio-desk">
-                            <h4 class="red">&#37; Mensual Asistencia</h4>
-                            <p>Cuartel:</p>
-                            <p>Capacitación:</p>
-                        </div>
-                    </div>
+                
+                <div class="col-md-6">
+                    <div class="lateral"></div>
+                    <div class="titulo-etiqueta">
+                       <img src="{% static 'usuarios/img/grafico-histograma.png' %}" width="25px"> &#37; ASISTENCIAS
+                    </div> 
+                    <div class="numero red">
+                        {{user.puntaje_total_anual}}
+                    </div> 
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="panel">
-                    <div class="panel-body">
-                        <div class="bio-chart">
-                            <div style="display:inline;width:100px;height:100px;"><canvas width="100" height="100px"></canvas><input class="knob red" data-width="100" data-height="100" data-displayprevious="true" data-thickness=".2" value="100" data-fgcolor="#96be4b" data-bgcolor="#e8e8e8" ></div>
-                        </div>
-                        <div class="bio-desk">
-                            <h4 class="red">Licencia Tomada</h4>
-                            <p>Anual:</p>
-                            <p>Enfermedad:</p>
-                            <p>Estudio:</p>
-                            <p>Otro:</p>
-                        </div>
-                    </div>
+
+                <div class="col-md-6">
+                    <div class="lateral"></div>
+                    <div class="titulo-etiqueta">
+                       <img src="{% static 'usuarios/img/grafico-histograma.png' %}" width="25px"> LICENCIAS
+                    </div> 
+                    <div class="numero red">
+                        {{user.puntaje_total_anual}}
+                    </div> 
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="panel">
-                    <div class="panel-body">
-                        <div class="bio-chart">
-                            <div style="display:inline;width:100px;height:100px;"><canvas width="100" height="100px"></canvas><input class="knob red" data-width="100" data-height="100" data-displayprevious="true" data-thickness=".2" value="35" data-fgcolor="#e06b7d" data-bgcolor="#e8e8e8"></div>
-                        </div>
-                        <div class="bio-desk">
-                            <h4 class="red">Sanciones</h4>
-                            <p>Cantidad dias:</p>
-                        </div>
-                    </div>
+
+                <div class="col-md-6">
+                    <div class="lateral"></div>
+                    <div class="titulo-etiqueta">
+                       <img src="{% static 'usuarios/img/grafico-histograma.png' %}" width="25px"> SANCIONES
+                    </div> 
+                    <div class="numero red">
+                        {{user.puntaje_total_anual}}
+                    </div> 
                 </div>
-            </div>
+                
+        <div class="divisor shadow rounded">Estad&iacutesticas mensuales</div>
+
+                <div class="col-md-6">
+                    <div class="lateral"></div>
+                    <div class="titulo-etiqueta">
+                    <img src="{% static 'usuarios/img/grafico-histograma.png' %}" width="25px"> PUNTAJE MENSUAL
+                    </div> 
+                    <div class="numero red">
+                        {{user.puntaje_total_anual}}
+                    </div> 
+                </div>
+
+                <div class="col-md-6">
+                    <div class="lateral"></div>
+                    <div class="titulo-etiqueta">
+                       <img src="{% static 'usuarios/img/grafico-histograma.png' %}" width="25px"> &#37; TOQUES MENSUAL
+                    </div> 
+                    <div class="numero red">
+                        {{user.puntaje_total_anual}}
+                    </div> 
+                </div>
+
+                <div class="col-md-6">
+                    <div class="lateral"></div>
+                    <div class="titulo-etiqueta">
+                       <img src="{% static 'usuarios/img/grafico-histograma.png' %}" width="25px"> &#37; ASISTENCIAS MENSUAL
+                    </div> 
+                    <div class="numero red">
+                        {{user.puntaje_total_anual}}
+                    </div> 
+                </div>
             
           </div>
 </div>
