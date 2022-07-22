@@ -50,3 +50,6 @@ class Documentacion(models.Model):
     class Meta:
         verbose_name = "Documentación"
         verbose_name_plural = "Documentación"
+
+    def __str__(self):
+        return self.titulo

@@ -1,5 +1,116 @@
 {% extends "sistema/base.html" %}
-
+{% load static %}
 {% block content %}
-contenido de documentacion
+<link rel="stylesheet" href="{% static 'sistema/css/estilo-documentacion.css' %}">
+<div class="accordion" id="accordionExample">
+
+    <div class="accordion-item">
+      <div class="accordion-header" id="headingOne1">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne1" aria-expanded="true" aria-controls="collapseOne">
+          Ordenes internas
+        </button>
+      </div>
+      <div id="collapseOne1" class="accordion-collapse collapse" aria-labelledby="headingOne1" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            <div class="list-group">
+            {% for oi in ordenes_internas %}
+                {% if 'pdf' in oi.archivo.url %}
+                    <a href="{{oi.archivo.url}}" class="list-group-item list-group-item-action pdf">{{oi.titulo}}</a>
+                {% elif 'docx' in oi.archivo.url or 'doc' in oi.archivo.url %}
+                    <a href="{{oi.archivo.url}}" class="list-group-item list-group-item-action word">{{oi.titulo}}</a>
+                {% elif 'pptx' in oi.archivo.url %}
+                    <a href="{{oi.archivo.url}}" class="list-group-item list-group-item-action pptx">{{oi.titulo}}</a>
+                {% else %}
+                    <a href="{{oi.archivo.url}}" class="list-group-item list-group-item-action">{{oi.titulo}}</a>
+                {% endif %}
+            {% empty %}
+                <li class="list-group-item">No hay datos para mostrar</li>
+            {% endfor %}
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" id="headingOne">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Capacitación
+        </button>
+      </div>
+      <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            <div class="list-group">
+            {% for cap in capacitacion %}
+                {% if 'pdf' in cap.archivo.url %}
+                    <a href="{{cap.archivo.url}}" class="list-group-item list-group-item-action pdf">{{cap.titulo}}</a>
+                {% elif 'docx' in cap.archivo.url %}
+                    <a href="{{cap.archivo.url}}" class="list-group-item list-group-item-action word">{{cap.titulo}}</a>
+                {% elif 'pptx' in cap.archivo.url %}
+                    <a href="{{cap.archivo.url}}" class="list-group-item list-group-item-action pptx">{{cap.titulo}}</a>
+                {% else %}
+                    <a href="{{cap.archivo.url}}" class="list-group-item list-group-item-action">{{cap.titulo}}</a>
+                {% endif %}
+            {% empty %}
+                <li class="list-group-item">No hay datos para mostrar</li>
+            {% endfor %}
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+        <div class="accordion-header" id="headingOne2">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne2" aria-expanded="true" aria-controls="collapseOne">
+            Módulos
+          </button>
+        </div>
+        <div id="collapseOne2" class="accordion-collapse collapse" aria-labelledby="headingOne2" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+              <div class="list-group">
+              {% for mod in modulos %}
+                  {% if 'pdf' in mod.archivo.url %}
+                      <a href="{{mod.archivo.url}}" class="list-group-item list-group-item-action pdf">{{mod.titulo}}</a>
+                  {% elif 'docx' in mod.archivo.url %}
+                      <a href="{{mod.archivo.url}}" class="list-group-item list-group-item-action word">{{mod.titulo}}</a>
+                  {% elif 'pptx' in mod.archivo.url %}
+                      <a href="{{mod.archivo.url}}" class="list-group-item list-group-item-action pptx">{{mod.titulo}}</a>
+                  {% else %}
+                      <a href="{{mod.archivo.url}}" class="list-group-item list-group-item-action">{{mod.titulo}}</a>
+                  {% endif %}
+              {% empty %}
+                  <li class="list-group-item">No hay datos para mostrar</li>
+              {% endfor %}
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" id="headingOne3">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne3" aria-expanded="true" aria-controls="collapseOne">
+            Otros
+          </button>
+        </div>
+        <div id="collapseOne3" class="accordion-collapse collapse" aria-labelledby="headingOne3" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+              <div class="list-group">
+              {% for ot in otros %}
+                  {% if 'pdf' in ot.archivo.url %}
+                      <a href="{{ot.archivo.url}}" class="list-group-item list-group-item-action pdf">{{ot.titulo}}</a>
+                  {% elif 'docx' in ot.archivo.url %}
+                      <a href="{{ot.archivo.url}}" class="list-group-item list-group-item-action word">{{ot.titulo}}</a>
+                  {% elif 'pptx' in ot.archivo.url %}
+                      <a href="{{ot.archivo.url}}" class="list-group-item list-group-item-action pptx">{{ot.titulo}}</a>
+                  {% else %}
+                      <a href="{{ot.archivo.url}}" class="list-group-item list-group-item-action">{{ot.titulo}}</a>
+                  {% endif %}
+              {% empty %}
+                  <li class="list-group-item">No hay datos para mostrar</li>
+              {% endfor %}
+              </div>
+          </div>
+        </div>
+      </div>
+
+</div>
 {% endblock %}
