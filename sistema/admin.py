@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ImagenesVehiculos, Unidades
+from .models import ImagenesVehiculos, Unidades, Documentacion
 # Register your models here.
 
 class ImagenesUnidadesInline(admin.TabularInline):
@@ -12,3 +12,4 @@ class VehiculosAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'marca', 'proposito', 'activa')
 
 admin.site.register(Unidades, VehiculosAdmin)
+admin.site.register(Documentacion)
