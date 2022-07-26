@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-
+from .models import Personal
 # Create your views here.
     
 def detalle(request):
@@ -17,13 +17,10 @@ def inicio(request):
         return redirect('login')
     return render(request, "usuarios/inicio.html")
 
-#def login(request):
-
-#    return render(request, "usuarios/login.html")
-
 def perfil(request):
     if not request.user.is_authenticated:
         return redirect('login')
+
     return render(request, "usuarios/perfil.html")
 
 
