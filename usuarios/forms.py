@@ -56,3 +56,9 @@ class AdminFormaActualizar(forms.ModelForm):
 
     def clean_password(self):
         return self.initial['password']
+
+class FormularioDatos(forms.ModelForm):
+    class Meta:
+        model = Personal
+        fields = ["correo", "documento", "sexo", "fecha_nacimiento", "lugar_nacimiento", "estado_civil",
+        "grupo_sanguineo", "estudios"]

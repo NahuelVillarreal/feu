@@ -2,7 +2,7 @@ from datetime import datetime
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from usuarios.forms import AdminFormaCreacionUsuario, AdminFormaActualizar
-from usuarios.models import Licencias, Personal, Puntajes, GruposGuardia, Licencias, Sanciones
+from usuarios.models import Licencias, Personal, Puntajes, GruposGuardia, Licencias, Sanciones, Cursos
 from servicios.models import Servicios
 
 # Register your models here.
@@ -391,7 +391,7 @@ class UserAdmin(BaseUserAdmin):
     list_filter = ('admin', 'seccion','jerarquia', 'cuerpo',)
     fieldsets = (
         (None, {'fields': ('matricula', 'password')}),
-        ('Información personal', {'fields': (('nombre', 'apellido'),'sexo', ('correo', 'documento'), ('fecha_nacimiento', 'lugar_nacimiento'), 'foto_perfil')}),
+        ('Información personal', {'fields': (('nombre', 'apellido'),'sexo', ('correo', 'documento'), ('fecha_nacimiento', 'lugar_nacimiento'), ('foto_perfil', 'estado_civil', 'grupo_sanguineo'))}),
         ('Información cuartel', {'fields': (('cuerpo', 'jerarquia'),'fecha_alta', ('seccion', 'grupo_guardia'), 'estudios')}),
         ('Permisos', {'fields': ('admin', 'staff', 'active')}),
         ('Otros', {'fields': ('last_login', 'antiguedad')}),
@@ -454,4 +454,5 @@ admin.site.register(Puntajes, PuntajeAdmin)
 admin.site.register(GruposGuardia, GruposGuardiaAdmin)
 admin.site.register(Licencias, LicenciasAdmin)
 admin.site.register(Sanciones)
+admin.site.register(Cursos, CursosAdmin)
 

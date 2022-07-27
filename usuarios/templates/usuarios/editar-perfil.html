@@ -1,0 +1,75 @@
+{% extends "sistema/base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'usuarios/css/inicio.css' %}">
+<link rel="stylesheet" href="{% static 'usuarios/css/estilo-perfil.css' %}">
+
+<section class="cabecera">
+    <div class="imagen">
+        <img class="img-fluid rounded" src="{{user.foto_perfil.url}}" alt="foto de perfil">
+    </div>
+    <button class="btn btn-primary btn-lg boton-editar" type="submit" form="formulario1">Guardar</button>
+    <div class="texto">
+        <h3 class="display-4">{{user.nombre}} {{user.apellido}}</h3>
+        <p class="h6">{{user.get_jerarquia_display}}</p>
+        <p class="h6">Matricula: {{user.matricula}}</p>
+    </div>
+    
+<hr>
+</section>
+<section class="contenido">
+        <form class="row g-3" method="post" id="formulario1" action="" enctype="multipart/form-data">{% csrf_token %}
+        <div class="divisor shadow rounded">Datos personales</div>
+            <div class="col-md-6">
+                <label for="inputEmail4" class="form-label">Email</label>
+                <input type="email" class="form-control" id="inputEmail4" value="{{user.correo}}" name="correo">
+            </div>
+            <div class="col-md-3">
+                <label for="inputDNI" class="form-label">N° documento</label>
+                <input type="number" class="form-control" id="inputDNI" value="{{user.documento}}" name="documento">
+            </div>
+            <div class="col-md-3">
+                <label for="inputSexo" class="form-label">Sexo</label>
+                <select class="form-select" id="inputSexo" name="sexo">
+                    {% for sexo in SEXO %}
+                        <option value="{{sexo.0}}" {% if sexo.0 == user.sexo %}selected{% endif %}>{{sexo.1}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="inputFnacimiento" class="form-label">Fecha de nacimiento</label>
+                <input type="date" class="form-control" id="inputFnacimiento" value="{{user.fecha_nacimiento|date:'Y-m-d'}}" name="fecha_nacimiento">
+            </div>
+            <div class="col-md-9">
+                <label for="inputLnacimiento" class="form-label">Lugar de nacimiento</label>
+                <input type="text" class="form-control" id="inputLnacimiento" value="{{user.lugar_nacimiento}}" name="lugar_nacimiento">
+            </div>
+            <div class="col-md-3">
+                <label for="inputEstadocivil" class="form-label">Estado civil</label>
+                <select class="form-select" id="inputEstadocivil" name="estado_civil">
+                    {% for estado in ESTADO_CIVIL %}
+                        <option value="{{estado.0}}" {% if estado.0 == user.estado_civil %}selected{% endif %}>{{estado.1}}</option>
+                    {% endfor %}
+                </select>
+            </div>  
+            <div class="col-md-3">
+                <label for="inputSangre" class="form-label">Tipo de sangre</label>
+                <select class="form-select" id="inputSangre" name="grupo_sanguineo">
+                    {% if user.grupo_sanguineo == "" %}
+                        <option>--------</option>
+                    {% endif %}
+                    {% for sangre in TIPOS %}
+                        <option value="{{sangre.0}}" {% if sangre.0 == user.grupo_sanguineo %}selected{% endif %}>{{sangre.1}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="inputEstudios" class="form-label">Estudios m&eacutedicos</label>
+                <input type="file" class="form-control" id="inputEstudios" multiple name="estudios">
+            </div>
+        </form>
+
+</section>
+
+
+{% endblock %}

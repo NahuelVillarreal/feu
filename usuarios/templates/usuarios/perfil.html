@@ -18,9 +18,155 @@
 <hr>
 </section>
 <section class="contenido">
-    <div class="divisor shadow rounded">Datos personales</div>
-
-
+    <fieldset disabled>
+        <form class="row g-3">
+        <div class="divisor shadow rounded">Datos personales</div>
+            <div class="col-md-6">
+                <label for="inputEmail4" class="form-label">Email</label>
+                <input type="email" class="form-control" id="inputEmail4" value="{{user.correo}}">
+            </div>
+            <div class="col-md-3">
+                <label for="inputDNI" class="form-label">N° documento</label>
+                <input type="number" class="form-control" id="inputDNI" value="{{user.documento}}">
+            </div>
+            <div class="col-md-3">
+                <label for="inputSexo" class="form-label">Sexo</label>
+                <select class="form-select" id="inputSexo">
+                    {% for sexo in SEXO %}
+                        <option value="{{sexo.0}}" {% if sexo.0 == user.sexo %}selected{% endif %}>{{sexo.1}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="inputFnacimiento" class="form-label">Fecha de nacimiento</label>
+                <input type="date" class="form-control" id="inputFnacimiento" value="{{user.fecha_nacimiento|date:'Y-m-d'}}">
+            </div>
+            <div class="col-md-9">
+                <label for="inputLnacimiento" class="form-label">Lugar de nacimiento</label>
+                <input type="text" class="form-control" id="inputLnacimiento" value="{{user.lugar_nacimiento}}">
+            </div>
+            <div class="col-md-3">
+                <label for="inputEstadocivil" class="form-label">Estado civil</label>
+                <select class="form-select" id="inputEstadocivil">
+                    {% for estado in ESTADO_CIVIL %}
+                        <option value="{{estado.0}}" {% if estado.0 == user.estado_civil %}selected{% endif %}>{{estado.1}}</option>
+                    {% endfor %}
+                </select>
+            </div>  
+            <div class="col-md-3">
+                <label for="inputSangre" class="form-label">Tipo de sangre</label>
+                <select class="form-select" id="inputSangre">
+                    {% if user.grupo_sanguineo == "" %}
+                        <option>--------</option>
+                    {% endif %}
+                    {% for sangre in TIPOS %}
+                        <option value="{{sangre.0}}" {% if sangre.0 == user.grupo_sanguineo %}selected{% endif %}>{{sangre.1}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="inputEstudios" class="form-label">Estudios m&eacutedicos</label>
+                <input type="file" class="form-control" id="inputEstudios" multiple>
+            </div>
+        </form>
+    </fieldset>
+        <div class="row g-3">
+        <div class="divisor shadow rounded">Datos cuartel</div>
+            <div class="col-md-3">
+                <label for="inputCuerpo" class="form-label">Cuerpo</label>
+                <div class="dato" id="inputCuerpo">
+                    {% if user.cuerpo != "" %}
+                        {{user.get_cuerpo_display}}
+                    {% else %}
+                        ---------
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="inputJerarquia" class="form-label">Jerarquia</label>
+                <div class="dato" id="inputJerarquia">
+                    {% if user.jerarquia != "" %}
+                        {{user.get_jerarquia_display}}
+                    {% else %}
+                        ---------
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label for="inputSeccion" class="form-label">Secci&oacuten</label>
+                <div class="dato" id="inputSeccion">
+                    {% if user.seccion != "" %}
+                        {{user.get_seccion_display}}
+                    {% else %}
+                        ---------
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label for="inputAlta" class="form-label">Fecha de alta</label>
+                <div class="dato" id="inputAlta">
+                    {% if user.fecha_alta != null %}
+                        {{user.fecha_alta}}
+                    {% else %}
+                        ---------
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label for="inputAntiguedad" class="form-label">Fecha de alta</label>
+                <div class="dato" id="inputAntiguedad">
+                    {{user.antiguedad}}
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label for="inputGrupo" class="form-label">Grupo de guardia</label>
+                <div class="dato" id="inputGrupo">
+                    {{user.grupo_guardia}}
+                </div>
+            </div>
+        <div class="divisor shadow rounded collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cursos" aria-expanded="true">Mis cursos</div>
+            <table class="table table-striped collapse" id="cursos">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Curso</th>
+                    <th scope="col">Fecha de curso</th>
+                    <th scope="col">Metodolog&iacutea</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for curso in cursos %}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{curso.nombre}}</td>
+                        <td>{{curso.t_inicio_curso}}</td>
+                        <td>{{curso.get_metodologia_display}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>   
+            </table>
+        <div class="divisor shadow rounded collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#licencias" aria-expanded="true">Mis licencias</div>
+            <table class="table table-striped collapse" id="licencias">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Inicio</th>
+                    <th scope="col">Finalizaci&oacuten</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for licencia in licencias %}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{licencia.get_tipo_display}}</td>
+                        <td>{{licencia.inicio|date}}</td>
+                        <td>{{licencia.finalizacion|date}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>   
+            </table>
+        </div>
 </section>
 
 

@@ -68,6 +68,7 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
     lugar_nacimiento = models.CharField(max_length=50, blank=True)
     sexo = models.CharField(max_length=9, choices= SEXO, blank=True)
     grupo_sanguineo = models.CharField(max_length=20, choices=TIPOS_DE_SANGRE, blank=True)
+    estado_civil = models.CharField(max_length=1, blank=True, choices=ESTADO_CIVIL, default="S")
     foto_perfil = models.ImageField(upload_to=path_fotos, blank=True, null=True, default="fotos-perfil/firefighter.png")
     estudios = models.FileField(upload_to=path_estudios, blank=True, null=True)
 
@@ -371,8 +372,8 @@ class GruposGuardia(models.Model):
 class Cursos(models.Model):
     METODOLOGIA = [('P', 'PRESENCIAL'), ('V', 'VIRTUAL'), ('M', 'MIXTO')]
     nombre = models.CharField(max_length=50)
-    t_inicio_curso = models.DateTimeField()
-    t_finalizacion_curso = models.DateTimeField()
+    t_inicio_curso = models.DateTimeField(verbose_name="Inicio")
+    t_finalizacion_curso = models.DateTimeField(verbose_name="Finalización")
     metodologia = models.CharField(max_length=1, choices=METODOLOGIA)
     participantes = models.ManyToManyField(Personal, blank=True)
 

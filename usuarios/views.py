@@ -1,5 +1,7 @@
-from django.shortcuts import render, redirect
-from .models import Personal
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import *
+from .forms import FormularioDatos
+from django.contrib import messages
 # Create your views here.
     
 def detalle(request):
@@ -20,7 +22,38 @@ def inicio(request):
 def perfil(request):
     if not request.user.is_authenticated:
         return redirect('login')
+    sexo = Personal.SEXO
+    estado_civil = Personal.ESTADO_CIVIL
+    tipos_sangre = Personal.TIPOS_DE_SANGRE
+    cursos = Cursos.objects.filter(participantes=request.user).order_by("t_inicio_curso")
+    licencias = Licencias.objects.filter(persona=request.user).order_by("inicio")
+    return render(request, "usuarios/perfil.html", {
+        "SEXO":sexo, 
+        "ESTADO_CIVIL":estado_civil, 
+        "TIPOS":tipos_sangre,
+        "cursos":cursos,
+        "licencias":licencias,
+        })
 
-    return render(request, "usuarios/perfil.html")
-
-
+def editar_perfil(request):
+    sexo = Personal.SEXO
+    estado_civil = Personal.ESTADO_CIVIL
+    tipos_sangre = Personal.TIPOS_DE_SANGRE
+    if not request.user.is_authenticated:
+        return redirect('login')
+    elif request.method=="POST":
+        form = FormularioDatos(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect("perfil")
+        else:
+            messages.error(request, 'Información incorrecta.')
+            return redirect("editar-perfil")
+    
+    form = FormularioDatos(instance=request.user)
+    return render(request, "usuarios/editar-perfil.html", {
+        "SEXO":sexo, 
+        "ESTADO_CIVIL":estado_civil, 
+        "TIPOS":tipos_sangre,
+        "form":form
+        })

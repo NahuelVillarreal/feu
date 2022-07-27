@@ -10,6 +10,6 @@ urlpatterns = [
     path('hacer-oi', views.hacer_oi, name="hacer-oi"),
     path('inicio', views.inicio, name="inicio"),
     path('perfil', views.perfil, name="perfil"),
-
+    path('editar-perfil', views.editar_perfil, name="editar-perfil")
 ]
 
