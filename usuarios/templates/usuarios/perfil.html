@@ -17,6 +17,16 @@
     
 <hr>
 </section>
+<!--for message-->
+  {% if messages %} {% for message in messages %}
+  <div
+    {% if message.tags %}
+    class="alert alert-{{ message.tags }} text-center"
+    {% endif %}
+  >
+    {{ message }}
+  </div>
+  {% endfor %} {% endif %}
 <section class="contenido">
     <fieldset disabled>
         <form class="row g-3">
@@ -41,9 +51,13 @@
                 <label for="inputFnacimiento" class="form-label">Fecha de nacimiento</label>
                 <input type="date" class="form-control" id="inputFnacimiento" value="{{user.fecha_nacimiento|date:'Y-m-d'}}">
             </div>
-            <div class="col-md-9">
+            <div class="col-md-6">
                 <label for="inputLnacimiento" class="form-label">Lugar de nacimiento</label>
                 <input type="text" class="form-control" id="inputLnacimiento" value="{{user.lugar_nacimiento}}">
+            </div>
+            <div class="col-md-3">
+                <label for="inputFoto" class="form-label">Avatar</label>
+                <input type="file" class="form-control" id="inputFoto" accept=".jpg, .png, .jpeg">
             </div>
             <div class="col-md-3">
                 <label for="inputEstadocivil" class="form-label">Estado civil</label>

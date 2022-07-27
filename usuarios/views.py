@@ -43,12 +43,19 @@ def editar_perfil(request):
         return redirect('login')
     elif request.method=="POST":
         form = FormularioDatos(request.POST, request.FILES, instance=request.user)
+        files = request.FILES.getlist('estudios')
         if form.is_valid():
             form.save()
+            if files:  # check if user has uploaded some files
+                for file in files:
+                    Estudios.objects.create(persona=request.user, 
+                    estudio=file, 
+                    tipo=filename,
+                    fecha_subida=datetime.today().strftime('%Y-%m-%d'))
+            messages.success(request, 'Datos guardados.')
             return redirect("perfil")
         else:
             messages.error(request, 'Información incorrecta.')
-            return redirect("editar-perfil")
     
     form = FormularioDatos(instance=request.user)
     return render(request, "usuarios/editar-perfil.html", {

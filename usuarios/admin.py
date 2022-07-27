@@ -1,8 +1,9 @@
 from datetime import datetime
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from numpy import vectorize
 from usuarios.forms import AdminFormaCreacionUsuario, AdminFormaActualizar
-from usuarios.models import Licencias, Personal, Puntajes, GruposGuardia, Licencias, Sanciones, Cursos
+from usuarios.models import Licencias, Personal, Puntajes, GruposGuardia, Licencias, Sanciones, Cursos, Estudios
 from servicios.models import Servicios
 
 # Register your models here.
@@ -372,12 +373,20 @@ class InlinesSanciones(admin.TabularInline):
     extra=0
     verbose_name_plural = 'Sanciones'
 
+class InlinesEstudios(admin.TabularInline):
+    model=Estudios
+    classes = ['collapse']
+    extra=0
+    def __str__(self):
+        return 'Estudios médicos'
+    verbose_name_plural = "Estudios médicos"
+    
 class UserAdmin(BaseUserAdmin):
     class Media:
         css = {
             'all': ('usuarios/css/custom_admin.css', )     # Include extra css
         }
-    inlines = [InlinesLicencias, InlinesSanciones, ServiciosToques, EneroInlines, FebreroInlines, MarzoInlines, AbrilInlines, MayoInlines, JunioInlines, JulioInlines,
+    inlines = [InlinesEstudios ,InlinesLicencias, InlinesSanciones, ServiciosToques, EneroInlines, FebreroInlines, MarzoInlines, AbrilInlines, MayoInlines, JunioInlines, JulioInlines,
     AgostoInlines, SeptiembreInlines, OctubreInlines, NoviembreInlines, DiciembreInlines]
     form = AdminFormaActualizar
     add_form: AdminFormaCreacionUsuario
@@ -392,8 +401,8 @@ class UserAdmin(BaseUserAdmin):
     fieldsets = (
         (None, {'fields': ('matricula', 'password')}),
         ('Información personal', {'fields': (('nombre', 'apellido'),'sexo', ('correo', 'documento'), ('fecha_nacimiento', 'lugar_nacimiento'), ('foto_perfil', 'estado_civil', 'grupo_sanguineo'))}),
-        ('Información cuartel', {'fields': (('cuerpo', 'jerarquia'),'fecha_alta', ('seccion', 'grupo_guardia'), 'estudios')}),
-        ('Permisos', {'fields': ('admin', 'staff', 'active')}),
+        ('Información cuartel', {'fields': (('cuerpo', 'jerarquia'),'fecha_alta', ('seccion', 'grupo_guardia'),)}),
+        ('Permisos', {'fields': (('admin', 'staff', 'active'),)}),
         ('Otros', {'fields': ('last_login', 'antiguedad')}),
         ('Servicios', {'fields': ('servicios_totales', ('servicios_con_toque_anual', 'servicios_con_toque_mensual'),
         ('asistencia_anual', 'asistencia_mensual'),)}),

@@ -17,6 +17,7 @@
     
 <hr>
 </section>
+
 <section class="contenido">
         <form class="row g-3" method="post" id="formulario1" action="" enctype="multipart/form-data">{% csrf_token %}
         <div class="divisor shadow rounded">Datos personales</div>
@@ -40,9 +41,13 @@
                 <label for="inputFnacimiento" class="form-label">Fecha de nacimiento</label>
                 <input type="date" class="form-control" id="inputFnacimiento" value="{{user.fecha_nacimiento|date:'Y-m-d'}}" name="fecha_nacimiento">
             </div>
-            <div class="col-md-9">
+            <div class="col-md-6">
                 <label for="inputLnacimiento" class="form-label">Lugar de nacimiento</label>
                 <input type="text" class="form-control" id="inputLnacimiento" value="{{user.lugar_nacimiento}}" name="lugar_nacimiento">
+            </div>
+            <div class="col-md-3">
+                <label for="inputFoto" class="form-label">Avatar</label>
+                <input type="file" class="form-control" id="inputFoto" name="foto_perfil" accept=".png, .jpg, .jpeg">
             </div>
             <div class="col-md-3">
                 <label for="inputEstadocivil" class="form-label">Estado civil</label>

@@ -61,4 +61,11 @@ class FormularioDatos(forms.ModelForm):
     class Meta:
         model = Personal
         fields = ["correo", "documento", "sexo", "fecha_nacimiento", "lugar_nacimiento", "estado_civil",
-        "grupo_sanguineo", "estudios"]
+        "grupo_sanguineo", "foto_perfil"]
+
+class FormularioFiles(FormularioDatos):
+    estudio = forms.FileField(
+        widget=forms.ClearableFileInput(attrs={'multiple': True}))
+
+    class Meta(FormularioDatos.Meta):
+        fields = FormularioDatos.Meta.fields + ['estudio', ]

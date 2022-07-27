@@ -20,7 +20,7 @@ def path_fotos(instance, filename):  #define ruta de archivo
 
 def path_estudios(instance, filename):  #define ruta de archivo
     ext = filename.split('.')[-1]
-    return '{}/{}_{}/{}_{}.{}'.format("estudios", instance.nombre, instance.apellido, datetime.today().strftime('%Y-%m-%d') , filename, ext)
+    return '{}/{}_{}/{}_{}.{}'.format("estudios", instance.persona.nombre, instance.persona.apellido, datetime.today().strftime('%Y-%m-%d') , filename, ext)
 
 def path_sanciones(instance, filename):
     return 'sanciones/{}_{}/{}-{}'.format(instance.sancionado.nombre, instance.sancionado.apellido, datetime.today().strftime('%Y-%m-%d'), filename)
@@ -70,7 +70,6 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
     grupo_sanguineo = models.CharField(max_length=20, choices=TIPOS_DE_SANGRE, blank=True)
     estado_civil = models.CharField(max_length=1, blank=True, choices=ESTADO_CIVIL, default="S")
     foto_perfil = models.ImageField(upload_to=path_fotos, blank=True, null=True, default="fotos-perfil/firefighter.png")
-    estudios = models.FileField(upload_to=path_estudios, blank=True, null=True)
 
     #DATOS CUARTELISTICOS
     JERARQUIAS = [(1, 'ASPIRANTE'), (2, 'BOMBERO'), (3, 'SUBOF. SUBAYUDANTE'), (4, 'SUBOF. AYUDANTE'), (5, 'SUBOF. AYUDANTE DE 1RA'), (6, 'SUBOF. AYUDANTE PRINCIPAL'), 
@@ -316,6 +315,15 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
     def __str__(self):
         return self.apellido.upper() + ', ' + self.nombre
 
+class Estudios(models.Model):
+    tipo = models.CharField(max_length=20)
+    persona = models.ForeignKey(Personal, on_delete=models.CASCADE)
+    estudio = models.FileField(upload_to=path_estudios)
+    fecha_subida = models.DateField()
+    class Meta:
+        verbose_name = 'Estudio médico'
+        verbose_name_plural = 'Estudios médicos'
+
 class Puntajes(models.Model):
     MES = [(1, 'ENERO'), (2, 'FEBRERO'), (3, 'MARZO'), (4, 'ABRIL'), (5, 'MAYO'), (6, 'JUNIO'), (7, 'JULIO'), 
     (8, 'AGOSTO'), (9, 'SEPTIEMBRE'), (10, 'OCTUBRE'), (11, 'NOVIEMBRE'), (12, 'DICIEMBRE'), ]
@@ -397,4 +405,3 @@ class Sanciones(models.Model):
 
     def __str__(self):
         return 'Sanción de {} dias para {}.'.format(str(self.dias), self.sancionado)
-            
