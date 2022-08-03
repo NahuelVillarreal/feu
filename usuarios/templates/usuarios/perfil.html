@@ -180,7 +180,32 @@
                     {% endfor %}
                 </tbody>   
             </table>
+
+        <div class="divisor shadow rounded collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sanciones" aria-expanded="true">Mis sanciones</div>
+            <table class="table table-striped collapse" id="sanciones">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Titulo</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Cant. dias</th>
+                    <th scope="col">Adjunto</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for sancion in sanciones %}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{sancion.titulo}}</td>
+                        <td>{{sancion.fecha}}</td>
+                        <td>{{sancion.dias}}</td>
+                        <td>{{sancion.adjunto}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>   
+            </table>
         </div>
+        
 </section>
 
 

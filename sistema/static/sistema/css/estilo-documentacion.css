@@ -1,5 +1,6 @@
 .accordion {
     width: 70%;
+    --bs-accordion-active-color: #c74332;
 }
 
 .accordion-button {

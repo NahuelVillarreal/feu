@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from servicios.models import Servicios
 from .models import *
 from .forms import FormularioDatos
 from django.contrib import messages
@@ -7,7 +8,11 @@ from django.contrib import messages
 def detalle(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    return render(request, "usuarios/detalle.html")
+    toques = Servicios.objects.filter(personal=request.user, tipo_convocatoria="t").order_by("t_toque")
+    
+    return render(request, "usuarios/detalle.html",{
+        "toques":toques,
+    })
 
 def hacer_oi(request):
     if not request.user.is_authenticated:
@@ -27,12 +32,14 @@ def perfil(request):
     tipos_sangre = Personal.TIPOS_DE_SANGRE
     cursos = Cursos.objects.filter(participantes=request.user).order_by("t_inicio_curso")
     licencias = Licencias.objects.filter(persona=request.user).order_by("inicio")
+    sanciones = Sanciones.objects.filter(sancionado=request.user).order_by("fecha")
     return render(request, "usuarios/perfil.html", {
         "SEXO":sexo, 
         "ESTADO_CIVIL":estado_civil, 
         "TIPOS":tipos_sangre,
         "cursos":cursos,
         "licencias":licencias,
+        "sanciones":sanciones,
         })
 
 def editar_perfil(request):

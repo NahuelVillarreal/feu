@@ -395,6 +395,7 @@ class Cursos(models.Model):
 class Sanciones(models.Model):
     sancionado = models.ForeignKey(Personal, on_delete=models.CASCADE)
     dias = models.IntegerField()
+    fecha = models.DateField()
     titulo = models.CharField(max_length=50)
     descripcion = models.CharField(max_length=400)
     adjunto = models.FileField(upload_to=path_sanciones, null=True, blank=True)

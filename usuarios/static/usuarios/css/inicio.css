@@ -10,6 +10,12 @@
     padding-left: 0;
 }
 
+.adicion-2 {
+    border-radius: 10px 0 0 10px;
+    margin-right: 0;
+    padding-right: 0;
+}
+
 .red {
     color: #c74332;
 }
@@ -47,6 +53,10 @@
     width: 10px;
     height: 100%;
     margin: 0;
+}
+
+.lateral-2 {
+    float:right;
 }
 
 .divisor {
