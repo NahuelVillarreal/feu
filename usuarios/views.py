@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from servicios.models import Servicios
+from servicios.models import Asistencias, Servicios
 from .models import *
 from .forms import FormularioDatos
 from django.contrib import messages
@@ -22,7 +22,46 @@ def hacer_oi(request):
 def inicio(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    return render(request, "usuarios/inicio.html")
+    servicios_con_toque_totales = Servicios.objects.filter(tipo_convocatoria="t").count()
+    servicios_con_toque_mensual = Servicios.objects.filter(tipo_convocatoria="t", t_toque__month = datetime.now().month).count()
+    asis = Asistencias.objects.all()
+    asistencias = [
+        asis.count(), #total
+        asis.filter(motivo="A").count(), #normales
+        asis.filter(motivo="C").count(), #capacitacion
+        asis.filter(motivo="D").count(), #ceremonia
+        asis.filter(motivo="O").count(), #otros
+    ]
+    mis_asistencias = [
+        asis.filter(personal_asistencia=request.user).count(), #total
+        asis.filter(motivo="A", personal_asistencia=request.user).count(), #normales
+        asis.filter(motivo="C", personal_asistencia=request.user).count(), #capacitacion
+        asis.filter(motivo="D", personal_asistencia=request.user).count(), #ceremonia
+        asis.filter(motivo="O", personal_asistencia=request.user).count(), #otros
+    ]
+    asistencias_mensual = [
+        asis.filter(t_asistencia_inicio__month = datetime.now().month).count(), #total
+        asis.filter(motivo="A", t_asistencia_inicio__month = datetime.now().month).count(), #normales
+        asis.filter(motivo="C", t_asistencia_inicio__month = datetime.now().month).count(), #capacitacion
+        asis.filter(motivo="D", t_asistencia_inicio__month = datetime.now().month).count(), #ceremonia
+        asis.filter(motivo="O", t_asistencia_inicio__month = datetime.now().month).count(), #otros
+    ]
+    mis_asistencias_mensual = [
+        asis.filter(personal_asistencia=request.user, t_asistencia_inicio__month = datetime.now().month).count(), #total
+        asis.filter(motivo="A", personal_asistencia=request.user, t_asistencia_inicio__month = datetime.now().month).count(), #normales
+        asis.filter(motivo="C", personal_asistencia=request.user, t_asistencia_inicio__month = datetime.now().month).count(), #capacitacion
+        asis.filter(motivo="D", personal_asistencia=request.user, t_asistencia_inicio__month = datetime.now().month).count(), #ceremonia
+        asis.filter(motivo="O", personal_asistencia=request.user, t_asistencia_inicio__month= datetime.now().month).count(), #otros
+    ]
+
+    return render(request, "usuarios/inicio.html", {
+        "servicios_con_toque_totales":servicios_con_toque_totales,
+        "servicios_con_toque_mensual":servicios_con_toque_mensual,
+        "asistencias":asistencias,
+        "mis_asistencias":mis_asistencias,
+        "asistencias_mensual":asistencias_mensual,
+        "mis_asistencias_mensual":mis_asistencias_mensual,
+    })
 
 def perfil(request):
     if not request.user.is_authenticated:
