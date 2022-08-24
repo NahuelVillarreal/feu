@@ -151,20 +151,30 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
         return agnos + ' años y ' + dias + ' dias'
 
     #servicios cantidades
+    
+
     def servicios_totales(self):
         return self.personal.count()
 
     def servicios_con_toque_anual(self):
-        return self.personal.filter(tipo_convocatoria = 't').count()
+        return self.personal.filter(
+            tipo_convocatoria = 't',
+            t_toque__year = datetime.now().year,).count()
     
     def servicios_con_toque_mensual(self):
-        return self.personal.filter(tipo_convocatoria = 't').filter(t_toque__month = datetime.now().month).count()
+        return self.personal.filter(
+            tipo_convocatoria = 't', 
+            t_toque__month = datetime.now().month,
+            t_toque__year = datetime.now().year,).count()
 
     def asistencia_anual(self):
-        return self.personal_asistencia.count()
+        return self.personal_asistencia.filter(
+            t_asistencia_inicio__year = datetime.now().year,).count()
     
     def asistencia_mensual(self):
-        return self.personal_asistencia.filter(t_asistencia_inicio__month = datetime.now().month).count()
+        return self.personal_asistencia.filter(
+            t_asistencia_inicio__month = datetime.now().month,
+            t_asistencia_inicio__year = datetime.now().year,).count()
 
     #porcentajes
     def porcentaje_toques_anual(self):
@@ -175,7 +185,13 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
         for licencia in Licencias.objects.filter(persona = self.matricula):
             resta += toques_con_licencia.filter(t_toque__date__range=[licencia.inicio, licencia.finalizacion]).count()
         try:
-            porc = 100*self.personal.filter(tipo_convocatoria = 't').count()/(Servicios.objects.filter(tipo_convocatoria = 't').count()-resta)
+            porc = 100*self.personal.filter(
+                tipo_convocatoria = 't',
+                t_toque__year = datetime.now().year,
+                ).count()/(Servicios.objects.filter(
+                    tipo_convocatoria = 't',
+                    t_toque__year = datetime.now().year,
+                    ).count()-resta)
         except ZeroDivisionError:
             porc = 100.0
         return str(round(porc,2)) + '%'
@@ -188,7 +204,15 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
         for licencia in Licencias.objects.filter(persona = self.matricula):
             resta += toques_con_licencia.filter(t_toque__date__range=[licencia.inicio, licencia.finalizacion]).count()
         try:
-            porc = 100*self.personal.filter(tipo_convocatoria = 't', t_toque__month = datetime.now().month).count()/(Servicios.objects.filter(tipo_convocatoria = 't', t_toque__month = datetime.now().month).count() - resta)
+            porc = 100*self.personal.filter(
+                tipo_convocatoria = 't', 
+                t_toque__month = datetime.now().month,
+                t_toque__year = datetime.now().year,
+                ).count()/(Servicios.objects.filter(
+                    tipo_convocatoria = 't', 
+                    t_toque__month = datetime.now().month,
+                    t_toque__year = datetime.now().year,
+                    ).count() - resta)
         except ZeroDivisionError:
             porc = 100.0
         return str(round(porc,2)) + '%'
@@ -201,7 +225,11 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
         for licencia in Licencias.objects.filter(persona = self.matricula):
             resta += asistencias_con_licencia.filter(t_asistencia_inicio__date__range=[licencia.inicio, licencia.finalizacion]).count()
         try:
-            porc = 100*self.personal_asistencia.count()/(Asistencias.objects.count() - resta)
+            porc = 100*self.personal_asistencia.filter(
+                t_asistencia_inicio__year=datetime.now().year,
+            ).count()/(Asistencias.objects.filter(
+                t_asistencia_inicio__year=datetime.now().year,
+            ).count() - resta)
         except ZeroDivisionError:
             porc = 100.0
         return str(round(porc,2)) + '%'
@@ -214,7 +242,13 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
         for licencia in Licencias.objects.filter(persona = self.matricula):
             resta += asistencias_con_licencia.filter(t_asistencia_inicio__date__range=[licencia.inicio, licencia.finalizacion]).count()
         try:
-            porc = 100*self.personal_asistencia.filter(t_asistencia_inicio__month = datetime.now().month).count()/(Asistencias.objects.filter(t_asistencia_inicio__month = datetime.now().month).count() - resta)
+            porc = 100*self.personal_asistencia.filter(
+                t_asistencia_inicio__month = datetime.now().month,
+                t_asistencia_inicio__year=datetime.now().year,
+                ).count()/(Asistencias.objects.filter(
+                    t_asistencia_inicio__month = datetime.now().month,
+                    t_asistencia_inicio__year=datetime.now().year,
+                    ).count() - resta)
         except ZeroDivisionError:
             porc = 100.0
         return str(round(porc,2)) + '%'   
@@ -225,7 +259,15 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
         suma = 0
         for mes in range(1, datetime.now().month+1):
             try:
-                suma += 20*self.personal.filter(tipo_convocatoria = 't', t_toque__month = mes).count()/Servicios.objects.filter(tipo_convocatoria = 't', t_toque__month = mes).count()
+                suma += 20*self.personal.filter(
+                    tipo_convocatoria = 't', 
+                    t_toque__month = mes,
+                    t_toque__year = datetime.now().year,
+                    ).count()/Servicios.objects.filter(
+                        tipo_convocatoria = 't', 
+                        t_toque__month = mes,
+                        t_toque__year = datetime.now().year,
+                        ).count()
             except ZeroDivisionError:
                 suma +=20.0
         return str(round(suma, 2))
@@ -233,7 +275,15 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
     def puntaje_toques_mensual(self):
         from servicios.models import Servicios
         try:
-            suma = 20*self.personal.filter(tipo_convocatoria = 't', t_toque__month = datetime.now().month).count()/Servicios.objects.filter(tipo_convocatoria = 't').filter(t_toque__month = datetime.now().month).count()
+            suma = 20*self.personal.filter(
+                tipo_convocatoria = 't', 
+                t_toque__month = datetime.now().month,
+                t_toque__year = datetime.now().year,
+                ).count()/Servicios.objects.filter(
+                    tipo_convocatoria = 't', 
+                    t_toque__month = datetime.now().month,
+                    t_toque__year = datetime.now().year,
+                    ).count()
         except ZeroDivisionError:
             suma = 20.0
         return str(round(suma, 2))
@@ -243,8 +293,24 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
         suma = 0
         for mes in range(1, datetime.now().month+1):
             try:
-                suma += 14*self.personal_asistencia.filter(t_asistencia_inicio__month = mes, motivo = 'C').count()/Asistencias.objects.filter(t_asistencia_inicio__month = mes, motivo = 'C').count()
-                suma += 6*self.personal_asistencia.filter(t_asistencia_inicio__month = mes).exclude(motivo = 'C').count()/Asistencias.objects.filter(t_asistencia_inicio__month = mes).exclude(motivo = 'C').count()
+                suma += 14*self.personal_asistencia.filter(
+                    t_asistencia_inicio__month = mes,
+                    t_asistencia_inicio__year = datetime.now().year, 
+                    motivo = 'C',
+                    ).count()/Asistencias.objects.filter(
+                        t_asistencia_inicio__month = mes,
+                        t_asistencia_inicio__year = datetime.now().year, 
+                        motivo = 'C',
+                        ).count()
+                suma += 6*self.personal_asistencia.filter(
+                    t_asistencia_inicio__month = mes,
+                    t_asistencia_inicio__year = datetime.now().year,
+                    ).exclude(
+                        motivo = 'C'
+                        ).count()/Asistencias.objects.filter(
+                            t_asistencia_inicio__month = mes,
+                            t_asistencia_inicio__year = datetime.now().year,
+                            ).exclude(motivo = 'C').count()
             except ZeroDivisionError:
                 suma +=20.0
         return str(round(suma, 2))
@@ -252,35 +318,49 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
     def puntaje_asistencias_mensual(self):
         from servicios.models import Asistencias
         try:
-            suma = 14*self.personal_asistencia.filter(t_asistencia_inicio__month = datetime.now().month, motivo = 'C').count()/Asistencias.objects.filter(t_asistencia_inicio__month = datetime.now().month, motivo = 'C').count()
-            suma += 6*self.personal_asistencia.filter(t_asistencia_inicio__month = datetime.now().month).exclude(motivo = 'C').count()/Asistencias.objects.filter(t_asistencia_inicio__month = datetime.now().month).exclude(motivo = 'C').count()
+            suma = 14*self.personal_asistencia.filter(
+                t_asistencia_inicio__month = datetime.now().month, 
+                t_asistencia_inicio__year = datetime.now().year,
+                motivo = 'C',
+                ).count()/Asistencias.objects.filter(
+                    t_asistencia_inicio__month = datetime.now().month, 
+                    t_asistencia_inicio__year = datetime.now().year,
+                    motivo = 'C',
+                    ).count()
+            suma += 6*self.personal_asistencia.filter(
+                t_asistencia_inicio__month = datetime.now().month,
+                t_asistencia_inicio__year = datetime.now().year,
+                ).exclude(motivo = 'C').count()/Asistencias.objects.filter(
+                    t_asistencia_inicio__month = datetime.now().month,
+                    t_asistencia_inicio__year = datetime.now().year,
+                    ).exclude(motivo = 'C').count()
         except ZeroDivisionError:
             suma = 20.0
         return str(round(suma, 2))
 
     def puntaje_guardias_anual(self):
-        qs = Puntajes.objects.filter(persona_id=self.matricula).all()
+        qs = Puntajes.objects.filter(persona_id=self.matricula, agno=datetime.now().year).all()
         puntaje_total = 0
         for objeto in range(qs.count()):
             puntaje_total += qs[objeto].guardias
         return puntaje_total
 
     def puntaje_guardias_mensual(self):
-        qs = Puntajes.objects.filter(persona_id=self.matricula, mes=datetime.now().month).all()
+        qs = Puntajes.objects.filter(persona_id=self.matricula, mes=datetime.now().month, agno=datetime.now().year).all()
         puntaje_total = 0
         for objeto in range(qs.count()):
             puntaje_total += qs[objeto].guardias
         return puntaje_total
 
     def puntaje_oi_anual(self):
-        qs = Puntajes.objects.filter(persona_id=self.matricula).all()
+        qs = Puntajes.objects.filter(persona_id=self.matricula, agno=datetime.now().year).all()
         puntaje_total = 0
         for objeto in range(qs.count()):
             puntaje_total += qs[objeto].orden_interno
         return puntaje_total
 
     def puntaje_oi_mensual(self):
-        qs = Puntajes.objects.filter(persona_id=self.matricula, mes=datetime.now().month).all()
+        qs = Puntajes.objects.filter(persona_id=self.matricula, mes=datetime.now().month, agno=datetime.now().year).all()
         puntaje_total = 0
         for objeto in range(qs.count()):
             puntaje_total += qs[objeto].orden_interno
@@ -328,6 +408,7 @@ class Puntajes(models.Model):
     MES = [(1, 'ENERO'), (2, 'FEBRERO'), (3, 'MARZO'), (4, 'ABRIL'), (5, 'MAYO'), (6, 'JUNIO'), (7, 'JULIO'), 
     (8, 'AGOSTO'), (9, 'SEPTIEMBRE'), (10, 'OCTUBRE'), (11, 'NOVIEMBRE'), (12, 'DICIEMBRE'), ]
     persona = models.ForeignKey(Personal, null=True, on_delete=models.CASCADE, related_query_name='persona')
+    agno = models.IntegerField(default=datetime.now().year)
     mes = models.IntegerField(default=datetime.now().month, choices=MES)
     orden_interno = models.IntegerField(null=True, blank=True)
     guardias = models.IntegerField(null=True, blank=True)

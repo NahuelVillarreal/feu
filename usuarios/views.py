@@ -22,9 +22,9 @@ def hacer_oi(request):
 def inicio(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    servicios_con_toque_totales = Servicios.objects.filter(tipo_convocatoria="t").count()
-    servicios_con_toque_mensual = Servicios.objects.filter(tipo_convocatoria="t", t_toque__month = datetime.now().month).count()
-    asis = Asistencias.objects.all()
+    servicios_con_toque_totales = Servicios.objects.filter(tipo_convocatoria="t", t_toque__year=datetime.now().year).count()
+    servicios_con_toque_mensual = Servicios.objects.filter(tipo_convocatoria="t", t_toque__month = datetime.now().month, t_toque__year=datetime.now().year).count()
+    asis = Asistencias.objects.filter(t_asistencia_inicio__year=datetime.now().year).all()
     asistencias = [
         asis.count(), #total
         asis.filter(motivo="A").count(), #normales
@@ -108,5 +108,5 @@ def editar_perfil(request):
         "SEXO":sexo, 
         "ESTADO_CIVIL":estado_civil, 
         "TIPOS":tipos_sangre,
-        "form":form
+        "form":form,
         })

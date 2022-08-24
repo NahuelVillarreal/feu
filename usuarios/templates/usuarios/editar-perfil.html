@@ -17,7 +17,12 @@
     
 <hr>
 </section>
-
+<!--for message-->
+{% if messages %} {% for message in messages %}
+<div class="alert alert-warning text-center">
+  {{ message }}
+</div>
+{% endfor %} {% endif %}
 <section class="contenido">
         <form class="row g-3" method="post" id="formulario1" action="" enctype="multipart/form-data">{% csrf_token %}
         <div class="divisor shadow rounded">Datos personales</div>
