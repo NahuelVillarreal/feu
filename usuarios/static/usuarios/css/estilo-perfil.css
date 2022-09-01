@@ -10,6 +10,15 @@
     float: left;
 }
 
+.botones-perfil {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    float: right;
+    z-index: 99;
+    gap: 10px
+}
+
 .texto {
     position: relative;
     padding-left: 160px;
@@ -24,11 +33,6 @@
     font-weight: 300;
 }
 
-.boton-editar {
-    position: relative;
-    float: right;
-    z-index: 99;
-}
 
 form {
     background-color: #f5f5f5;

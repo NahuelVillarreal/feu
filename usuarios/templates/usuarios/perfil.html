@@ -8,8 +8,11 @@
     <div class="imagen">
         <img class="img-fluid rounded" src="{{user.foto_perfil.url}}" alt="foto de perfil">
     </div>
-    <button class="btn btn-primary btn-lg boton-editar" type="button" onclick="location.href='/editar-perfil'">Editar</button>
-    <div class="texto">
+    <div class="botones-perfil">
+        <button class="btn btn-primary btn-lg boton-editar" type="button" onclick="location.href='/editar-perfil'">Editar</button>
+        <button class="btn btn-primary btn-lg boton-editar" type="button" onclick="location.href='/change_pass'">Cambiar contraseña</button>
+    </div>
+        <div class="texto">
         <h3 class="display-4">{{user.nombre}} {{user.apellido}}</h3>
         <p class="h6">{{user.get_jerarquia_display}}</p>
         <p class="h6">Matricula: {{user.matricula}}</p>
