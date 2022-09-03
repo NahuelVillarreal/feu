@@ -180,7 +180,7 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
     def porcentaje_toques_anual(self):
         from servicios.models import Servicios
         from .models import Licencias
-        toques_con_licencia = Servicios.objects.filter(tipo_convocatoria = 't')
+        toques_con_licencia = Servicios.objects.filter(tipo_convocatoria = 't', t_toque__year = datetime.now().year)
         resta = 0
         for licencia in Licencias.objects.filter(persona = self.matricula):
             resta += toques_con_licencia.filter(t_toque__date__range=[licencia.inicio, licencia.finalizacion]).count()
@@ -199,7 +199,7 @@ class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
     def porcentaje_toques_mensual(self):
         from servicios.models import Servicios
         from .models import Licencias
-        toques_con_licencia = Servicios.objects.filter(tipo_convocatoria = 't', t_toque__month = datetime.now().month)
+        toques_con_licencia = Servicios.objects.filter(tipo_convocatoria = 't', t_toque__month = datetime.now().month, t_toque__year = datetime.now().year)
         resta = 0
         for licencia in Licencias.objects.filter(persona = self.matricula):
             resta += toques_con_licencia.filter(t_toque__date__range=[licencia.inicio, licencia.finalizacion]).count()

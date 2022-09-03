@@ -24,6 +24,14 @@ def inicio(request):
         return redirect('login')
     servicios_con_toque_totales = Servicios.objects.filter(tipo_convocatoria="t", t_toque__year=datetime.now().year).count()
     servicios_con_toque_mensual = Servicios.objects.filter(tipo_convocatoria="t", t_toque__month = datetime.now().month, t_toque__year=datetime.now().year).count()
+    toques_con_licencia_anual = Servicios.objects.filter(tipo_convocatoria = 't')
+    toques_con_licencia_mensual = Servicios.objects.filter(tipo_convocatoria = 't', t_toque__month = datetime.now().month)
+    toq_anual = 0
+    for licencia in Licencias.objects.filter(persona = request.user.matricula):
+        toq_anual += toques_con_licencia_anual.filter(t_toque__date__range=[licencia.inicio, licencia.finalizacion]).count()    
+    toq_mensual = 0
+    for licencia in Licencias.objects.filter(persona = request.user.matricula):
+        toq_mensual += toques_con_licencia_mensual.filter(t_toque__date__range=[licencia.inicio, licencia.finalizacion]).count()    
     asis = Asistencias.objects.filter(t_asistencia_inicio__year=datetime.now().year).all()
     asistencias = [
         asis.count(), #total
@@ -61,6 +69,8 @@ def inicio(request):
         "mis_asistencias":mis_asistencias,
         "asistencias_mensual":asistencias_mensual,
         "mis_asistencias_mensual":mis_asistencias_mensual,
+        "toq_anual":toq_anual,
+        "toq_mensual":toq_mensual,
     })
 
 def perfil(request):

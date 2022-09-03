@@ -48,7 +48,8 @@ class AdminFormaCreacionUsuario(forms.ModelForm):
         return usuario
 
 class AdminFormaActualizar(forms.ModelForm):
-    password = ReadOnlyPasswordHashField()
+    password = ReadOnlyPasswordHashField(label=("Password"),
+        help_text=("Las contraseñas no son guardadas en la base de datos, puede modificarla con este<a href=\"../password/\"> enlace</a>."))
 
     class Meta:
         model = Personal
