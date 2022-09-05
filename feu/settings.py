@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'usuarios',
     'servicios',
     'autenticacion',
+    'cuarteleros',
 ]
 
 MIDDLEWARE = [

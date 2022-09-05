@@ -1,0 +1,16 @@
+body {
+    flex-direction: unset;
+    align-items: center;
+}
+
+.botones-servicio {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 0 auto;
+}
+
+button {
+    width: 40vw;
+    height: 10vh;
+}
