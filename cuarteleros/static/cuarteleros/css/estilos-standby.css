@@ -1,7 +1,3 @@
-body {
-    flex-direction: unset;
-    align-items: center;
-}
 
 .botones-servicio {
     display: flex;
@@ -10,7 +6,7 @@ body {
     margin: 0 auto;
 }
 
-button {
+.botones-servicio button {
     width: 40vw;
     height: 10vh;
 }
