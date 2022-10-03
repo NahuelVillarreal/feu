@@ -396,10 +396,10 @@ class UserAdmin(BaseUserAdmin):
     'porcentaje_asistencias_mensual', 'puntaje_toques_anual', 'puntaje_toques_mensual', 'puntaje_asistencias_anual', 'puntaje_asistencias_mensual',
     'grupo_guardia', 'puntaje_guardias_mensual', 'puntaje_guardias_anual', 'puntaje_oi_anual', 'puntaje_oi_mensual',
     'puntaje_total_anual', 'puntaje_total_mensual')
-    list_display = ('matricula','get_full_name', 'jerarquia' , 'admin', 'seccion')
+    list_display = ('matricula','get_full_name', 'jerarquia' , 'admin', 'seccion', )
     list_filter = ('admin', 'seccion','jerarquia', 'cuerpo',)
     fieldsets = (
-        (None, {'fields': ('matricula', 'password')}),
+        (None, {'fields': ('matricula', 'password', 'groups')}),
         ('Información personal', {'fields': (('nombre', 'apellido'),'sexo', ('correo', 'documento'), ('fecha_nacimiento', 'lugar_nacimiento'), ('foto_perfil', 'estado_civil', 'grupo_sanguineo'))}),
         ('Información cuartel', {'fields': (('cuerpo', 'jerarquia'),'fecha_alta', ('seccion', 'grupo_guardia'),)}),
         ('Permisos', {'fields': (('admin', 'staff', 'active'),)}),
@@ -411,7 +411,7 @@ class UserAdmin(BaseUserAdmin):
         ('puntaje_guardias_anual', 'puntaje_guardias_mensual'), ('puntaje_oi_anual', 'puntaje_oi_mensual'),)}),
     )
     
-    exclude = ('groups', 'is_active', 'last_name', 'is_staff', 'email', 'username', 'first_name', 'date_joined', 'is_superuser', 'user_permissions')
+    exclude = ('is_active', 'last_name', 'is_staff', 'email', 'username', 'first_name', 'date_joined', 'is_superuser', 'user_permissions')
 
     add_fieldsets = (
         (None, {'fields': ('matricula', 'password1', 'password2', )}),
@@ -419,7 +419,7 @@ class UserAdmin(BaseUserAdmin):
     radio_fields = {'sexo':admin.HORIZONTAL}
     search_fields = ('matricula', 'apellido', 'nombre', 'jerarquia', 'seccion')
     ordering = ('jerarquia',)
-    filter_horizontal = ()
+    filter_horizontal = ('groups',)
 
 class PuntajeAdmin(admin.ModelAdmin):
     readonly_fields=()
@@ -464,4 +464,5 @@ admin.site.register(GruposGuardia, GruposGuardiaAdmin)
 admin.site.register(Licencias, LicenciasAdmin)
 admin.site.register(Sanciones)
 admin.site.register(Cursos, CursosAdmin)
+
 

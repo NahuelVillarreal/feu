@@ -3,6 +3,7 @@ from tabnanny import verbose
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
+from django.contrib.auth.models import PermissionsMixin
 import os
 from datetime import datetime, date
 
@@ -53,7 +54,7 @@ class ManejadorUsuario(BaseUserManager):
         return usuario
 
 
-class Personal(AbstractBaseUser): #creo modelo de usuarios personalizado
+class Personal(AbstractBaseUser, PermissionsMixin): #creo modelo de usuarios personalizado
     #reset
     #DATOS PERSONALES
     TIPOS_DE_SANGRE = [('O-', 'O NEGATIVO'), ('O+', 'O POSITIVO'), ('A-', 'A NEGATIVO'), ('A+', 'A POSITIVO'), ('B-', 'B NEGATIVO'), ('B+', 'B POSITIVO'), ('AB-', 'AB NEGATIVO'), ('AB+', 'AB POSITIVO')]
@@ -449,8 +450,8 @@ class GruposGuardia(models.Model):
     miembros = models.ManyToManyField(Personal, blank=True, related_name='miembros')
 
     class Meta:
-        verbose_name = 'Grupo'
-        verbose_name_plural = 'Grupos'
+        verbose_name = 'Grupo de guardia'
+        verbose_name_plural = 'Grupos de guardia'
 
     def __str__(self):
         return 'Grupo {}'.format(str(self.grupo))
